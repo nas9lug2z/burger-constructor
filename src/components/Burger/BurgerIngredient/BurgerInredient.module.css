@@ -1,3 +1,10 @@
 .ingredientImg {
-	width: 500px;
+	width: 350px;
+	display: block;
+	position: relative;
+	margin: auto;
+	padding-top: -30px;
+}
+.zIndex {
+	z-index: 0;
 }

@@ -1,4 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+
+import classes from './Burger.module.css';
 
 import ingredientClasses from './BurgerIngredient/BurgerInredient.module.css';
 import upperBread from './../../assets/upper-bread.svg';
@@ -18,18 +20,20 @@ const Burger = props => {
 	console.log(transformedIngredients);
 
 	return (
-		<Fragment>
+		<div className={classes.Burger}>
 			<p>[Burger.js]</p>
 			<img
 				src={upperBread}
 				alt='upper bread'
-				className={ingredientClasses.ingredientImg}></img>
+				className={ingredientClasses.ingredientImg}
+				style={{ zIndex: 20 }}></img>
 			{transformedIngredients}
 			<img
 				src={bottomBread}
 				alt='bottom bread'
-				className={ingredientClasses.ingredientImg}></img>
-		</Fragment>
+				className={ingredientClasses.ingredientImg}
+				style={{ zIndex: 1 }}></img>
+		</div>
 	);
 };
 export default Burger;
