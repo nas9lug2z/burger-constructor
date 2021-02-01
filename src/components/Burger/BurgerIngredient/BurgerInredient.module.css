@@ -3,7 +3,7 @@
 	display: block;
 	position: relative;
 	margin: auto;
-	padding-top: -30px;
+	/* padding-top: -80px; */
 }
 .zIndex {
 	z-index: 0;
