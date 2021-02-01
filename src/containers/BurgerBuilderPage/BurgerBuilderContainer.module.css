@@ -1,0 +1,9 @@
+main {
+	text-align: center;
+	margin: auto;
+}
+
+.Container {
+	display: flex;
+	align-items: flex-start;
+}

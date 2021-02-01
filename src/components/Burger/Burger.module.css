@@ -1,6 +1,8 @@
-.Burger {
+.BurgerContainer {
 	margin: auto;
 	text-align: center;
 	/* background-color: red; */
 	width: 700px;
+	/* max-height: 500px; */
+	flex: 1;
 }

@@ -9,8 +9,6 @@ import bottomBread from './../../assets/bottom-bread.svg';
 import BurgerIngredient from '../Burger/BurgerIngredient/BurgerIngredient';
 
 const Burger = props => {
-	console.log(props.ingredients);
-
 	let transformedIngredients = Object.keys(props.ingredients)
 		.map(igKey => {
 			return [...Array(props.ingredients[igKey])].map((_, i) => {
@@ -26,11 +24,8 @@ const Burger = props => {
 		transformedIngredients = <p>Please start adding ingredients!</p>;
 	}
 
-	console.log(transformedIngredients);
-
 	return (
-		<div className={classes.Burger}>
-			<p>[Burger.js]</p>
+		<div className={classes.BurgerContainer}>
 			<img
 				src={upperBread}
 				alt='upper bread'
