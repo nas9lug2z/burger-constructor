@@ -31,7 +31,22 @@ class BurgerBuilderContainer extends Component {
 			lettuce: 0,
 		},
 		price: 4.25,
+		purchasable: false,
 	};
+
+	updatePurchaseState(ingredients) {
+		const sum = Object.values(ingredients).reduce(
+			(accumulator, currentValue) => {
+				return accumulator + currentValue;
+			},
+			0
+		);
+		if (sum === 0) {
+			this.setState({ purchasable: false });
+		} else {
+			this.setState({ purchasable: true });
+		}
+	}
 
 	addIngredientHandler = type => {
 		const oldCount = this.state.ingredients[type];
@@ -43,6 +58,7 @@ class BurgerBuilderContainer extends Component {
 		const oldPrice = this.state.price;
 		const updatedPrice = Math.round((oldPrice + PRICES[type]) * 100) / 100;
 		this.setState({ ingredients: updatedIngredients, price: updatedPrice });
+		this.updatePurchaseState(updatedIngredients);
 	};
 
 	removeIngredientHandler = type => {
@@ -56,11 +72,11 @@ class BurgerBuilderContainer extends Component {
 			const oldPrice = this.state.price;
 			const updatedPrice = Math.round((oldPrice - PRICES[type]) * 100) / 100;
 			this.setState({ ingredients: updatedIngredients, price: updatedPrice });
+			this.updatePurchaseState(updatedIngredients);
 		}
 	};
 
 	render() {
-		// console.log(this.addIngredientHandler('egg'));
 		return (
 			<main>
 				<h1>Build your own burger!</h1>
@@ -70,6 +86,7 @@ class BurgerBuilderContainer extends Component {
 						addIngredientHandler={this.addIngredientHandler}
 						removeIngredientHandler={this.removeIngredientHandler}
 						price={this.state.price}
+						purchasable={this.state.purchasable}
 					/>
 					<Burger ingredients={this.state.ingredients} />
 				</div>

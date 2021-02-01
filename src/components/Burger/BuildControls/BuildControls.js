@@ -9,7 +9,6 @@ const BuildControls = props => {
 	const ingredientsList = Object.keys(props.ingredients).map((ig, index) => {
 		return (
 			<BuildControl
-				// ingredients={props.ingredients}
 				ingredientName={ig}
 				quantity={ingredientQuantities[index]}
 				key={ig + ingredientQuantities[index]}
@@ -25,7 +24,7 @@ const BuildControls = props => {
 			<div className={classes.IngredientsList}>{ingredientsList}</div>
 			<div>
 				<p>Price: {props.price}€</p>
-				<button>Checkout</button>
+				<button disabled={!props.purchasable}>Checkout</button>
 			</div>
 		</div>
 	);
