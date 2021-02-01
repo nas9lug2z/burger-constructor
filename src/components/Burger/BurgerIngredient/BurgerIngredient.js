@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 
 import ingredientClasses from './BurgerInredient.module.css';
 
@@ -59,6 +60,10 @@ const BurgerIngredient = props => {
 				alt={props.type}></img>
 		</Fragment>
 	);
+
+	BurgerIngredient.propTypes = {
+		type: PropTypes.string.isRequired,
+	};
 };
 
 export default BurgerIngredient;
