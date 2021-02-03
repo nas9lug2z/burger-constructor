@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import classes from './OrderSummary.module.css';
 
@@ -24,7 +24,7 @@ const OrderSummary = props => {
 				</li>
 				{ingredientsList}
 			</ul>
-			<h3>Price: {props.price} €</h3>
+			<h3>Total price: {props.price} €</h3>
 			<div>
 				<button onClick={props.modalClosed} className='black-button'>
 					Cancel

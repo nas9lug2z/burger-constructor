@@ -1,6 +1,7 @@
 .Modal {
 	position: fixed;
 	display: flex;
+	justify-content: space-between;
 	z-index: 100;
 	top: calc(50% - 250px);
 	left: calc(50% - 300px);

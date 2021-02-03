@@ -1,9 +1,9 @@
 .OrderSummary {
 	text-transform: capitalize;
+	padding: 30px;
 	margin: auto;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
 }
 .Title {
 	margin-top: 0;

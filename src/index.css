@@ -1,12 +1,15 @@
 :root {
 	--main-color: #333;
+	--header-height: 70px;
 }
 body {
 	margin: 0;
 	font-family: 'Open Sans', sans-serif;
 	color: var(--main-color);
 }
-
+main {
+	padding: var(--header-height);
+}
 .black-button {
 	background-color: var(--main-color);
 	color: white;
