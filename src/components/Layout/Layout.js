@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 import BurgerBuilderContainer from '../../containers/BurgerBuilderPage/BurgerBuilderContainer';
 
-const Layout = _ => {
+const Layout = props => {
 	return (
 		<Fragment>
 			<p>Navbar</p>

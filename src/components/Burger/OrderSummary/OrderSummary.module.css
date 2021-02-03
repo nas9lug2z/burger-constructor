@@ -1,0 +1,19 @@
+.OrderSummary {
+	text-transform: capitalize;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.Title {
+	margin-top: 0;
+}
+.List {
+	padding: 0;
+	text-align: left;
+	margin: auto;
+}
+.ListItem {
+	list-style: none;
+	margin: 0;
+}

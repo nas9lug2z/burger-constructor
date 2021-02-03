@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
-
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import classes from './BurgerBuilderContainer.module.css';
 
 const PRICES = {
@@ -32,6 +33,15 @@ class BurgerBuilderContainer extends Component {
 		},
 		price: 4.25,
 		purchasable: false,
+		checkout: false,
+	};
+
+	checkoutHandler = _ => {
+		this.setState({ checkout: true });
+	};
+
+	checkoutCancelHandler = _ => {
+		this.setState({ checkout: false });
 	};
 
 	updatePurchaseState(ingredients) {
@@ -87,8 +97,18 @@ class BurgerBuilderContainer extends Component {
 						removeIngredientHandler={this.removeIngredientHandler}
 						price={this.state.price}
 						purchasable={this.state.purchasable}
+						clicked={this.checkoutHandler}
 					/>
 					<Burger ingredients={this.state.ingredients} />
+					<Modal
+						show={this.state.checkout}
+						modalClosed={this.checkoutCancelHandler}>
+						<OrderSummary
+							ingredients={this.state.ingredients}
+							price={this.state.price}
+							modalClosed={this.checkoutCancelHandler}
+						/>
+					</Modal>
 				</div>
 			</main>
 		);

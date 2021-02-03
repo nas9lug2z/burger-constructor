@@ -24,7 +24,12 @@ const BuildControls = props => {
 			<div className={classes.IngredientsList}>{ingredientsList}</div>
 			<div>
 				<p>Price: {props.price}€</p>
-				<button disabled={!props.purchasable}>Checkout</button>
+				<button
+					disabled={!props.purchasable}
+					onClick={props.clicked}
+					className='black-button'>
+					Checkout
+				</button>
 			</div>
 		</div>
 	);
