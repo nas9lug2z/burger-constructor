@@ -1,0 +1,59 @@
+/* @media (min-width: 499px) {
+	div {
+		display: none;
+	}
+} */
+
+/* div {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+} */
+.MenuBtn {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 50px;
+	height: 50px;
+	cursor: pointer;
+	transition: all 0.5s ease-in-out;
+	z-index: 500;
+}
+.MenuBtnBurger {
+	width: 40px;
+	height: 2px;
+	background: white;
+	border-radius: 5px;
+	transition: all 0.5s ease-in-out;
+	z-index: 500;
+}
+.MenuBtnBurger::before,
+.MenuBtnBurger::after {
+	content: '';
+	position: absolute;
+	width: 40px;
+	height: 2px;
+	background: white;
+	border-radius: 5px;
+	transition: all 0.5s ease-in-out;
+	z-index: 500;
+}
+.MenuBtnBurger::before {
+	transform: translateY(-10px);
+}
+.MenuBtnBurger::after {
+	transform: translateY(10px);
+}
+
+/*Animation*/
+.Open {
+	background: transparent;
+	z-index: 600;
+}
+.Open::before {
+	transform: rotate(45deg);
+}
+.Open::after {
+	transform: rotate(-45deg);
+}

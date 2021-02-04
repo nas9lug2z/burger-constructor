@@ -1,22 +1,17 @@
 import React from 'react';
+import classes from './HamburgerButton.module.css';
 
 const HamburgerButton = props => {
-	// let hamburgerClasses = [classes.Hamburger, classes.HamburgerSqueeze];
+	let menuBtnBurgerClasses = [classes.MenuBtnBurger];
 
-	// let hamburgerInner = [classes.HamburgerInner];
-
-	// if (props.black) {
-	// 	hamburgerInner.push(classes.BlackColor);
-	// }
-
+	if (props.open) {
+		menuBtnBurgerClasses = [classes.MenuBtnBurger, classes.Open];
+	}
+	console.log(props.open);
 	return (
-		<button
-			href='/'
-			// className={hamburgerClasses.join(' ')}
-			type='button'
-			onClick={props.toggleSideDrawer}>
-			MENU
-		</button>
+		<div onClick={props.toggleSideDrawer} className={classes.MenuBtn}>
+			<div className={menuBtnBurgerClasses.join(' ')}></div>
+		</div>
 	);
 };
 

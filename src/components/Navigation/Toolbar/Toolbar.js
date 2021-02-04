@@ -10,7 +10,10 @@ const Toolbar = props => {
 			<nav className={classes.DesktopOnly}>
 				<NavigationItems />
 			</nav>
-			<HamburgerButton toggleSideDrawer={props.toggleSideDrawer} />
+			<HamburgerButton
+				toggleSideDrawer={props.toggleSideDrawer}
+				open={props.showSideDrawer}
+			/>
 			<Logo white />
 		</header>
 	);

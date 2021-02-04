@@ -17,7 +17,6 @@ const SideDrawer = props => {
 	return (
 		<Fragment>
 			<BackDrop show={props.showSideDrawer} clicked={props.close} />
-			<HamburgerButton black />
 			<div className={dynamicClasses.join(' ')}>
 				<div className={classes.LogoSideDrawer}>
 					<Logo white />

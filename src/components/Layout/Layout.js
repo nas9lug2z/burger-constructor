@@ -6,7 +6,7 @@ import BurgerBuilderContainer from '../../containers/BurgerBuilderPage/BurgerBui
 
 class Layout extends Component {
 	state = {
-		showSideDrawer: false,
+		showSideDrawer: true,
 	};
 
 	sideDrawerToggleHandler = _ => {
@@ -23,9 +23,13 @@ class Layout extends Component {
 	render() {
 		return (
 			<Fragment>
-				<Toolbar toggleSideDrawer={this.sideDrawerToggleHandler} />
+				<Toolbar
+					toggleSideDrawer={this.sideDrawerToggleHandler}
+					showSideDrawer={this.state.showSideDrawer}
+				/>
 				<SideDrawer
 					showSideDrawer={this.state.showSideDrawer}
+					toggleSideDrawer={this.sideDrawerToggleHandler}
 					close={this.sideDrawerClosedHandler}
 				/>
 				<BurgerBuilderContainer />
