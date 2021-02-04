@@ -8,7 +8,7 @@ body {
 	color: var(--main-color);
 }
 main {
-	padding: var(--header-height);
+	padding-top: var(--header-height);
 }
 .black-button {
 	background-color: var(--main-color);
@@ -24,4 +24,7 @@ main {
 	background-color: white;
 	color: var(--main-color);
 	cursor: pointer;
+}
+h1 {
+	margin: 0;
 }

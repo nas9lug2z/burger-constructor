@@ -3,7 +3,6 @@ import classes from './SideDrawer.module.css';
 import Logo from '../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 import BackDrop from '../../UI/Backdrop/Backdrop';
-import HamburgerButton from '../NavigationItems/HamburgerButton/HamburgerButton';
 
 const SideDrawer = props => {
 	let dynamicClasses = [classes.SideDrawer];

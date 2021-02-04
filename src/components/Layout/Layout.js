@@ -6,7 +6,7 @@ import BurgerBuilderContainer from '../../containers/BurgerBuilderPage/BurgerBui
 
 class Layout extends Component {
 	state = {
-		showSideDrawer: true,
+		showSideDrawer: false,
 	};
 
 	sideDrawerToggleHandler = _ => {

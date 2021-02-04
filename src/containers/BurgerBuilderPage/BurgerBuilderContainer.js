@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
@@ -88,29 +88,31 @@ class BurgerBuilderContainer extends Component {
 
 	render() {
 		return (
-			<main>
-				<h1>Build your own burger!</h1>
-				<div className={classes.Container}>
-					<BuildControls
-						ingredients={this.state.ingredients}
-						addIngredientHandler={this.addIngredientHandler}
-						removeIngredientHandler={this.removeIngredientHandler}
-						price={this.state.price}
-						purchasable={this.state.purchasable}
-						clicked={this.checkoutHandler}
-					/>
-					<Burger ingredients={this.state.ingredients} />
-					<Modal
-						show={this.state.checkout}
-						modalClosed={this.checkoutCancelHandler}>
-						<OrderSummary
+			<Fragment>
+				<main>
+					<h1>Build your own burger!</h1>
+					<div className={classes.Container}>
+						<BuildControls
 							ingredients={this.state.ingredients}
+							addIngredientHandler={this.addIngredientHandler}
+							removeIngredientHandler={this.removeIngredientHandler}
 							price={this.state.price}
-							modalClosed={this.checkoutCancelHandler}
+							purchasable={this.state.purchasable}
+							clicked={this.checkoutHandler}
 						/>
-					</Modal>
-				</div>
-			</main>
+						<Burger ingredients={this.state.ingredients} />
+					</div>
+				</main>
+				<Modal
+					show={this.state.checkout}
+					modalClosed={this.checkoutCancelHandler}>
+					<OrderSummary
+						ingredients={this.state.ingredients}
+						price={this.state.price}
+						modalClosed={this.checkoutCancelHandler}
+					/>
+				</Modal>
+			</Fragment>
 		);
 	}
 }

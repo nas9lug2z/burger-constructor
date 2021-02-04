@@ -1,8 +1,9 @@
-/* @media (min-width: 499px) {
-	div {
+@media (min-width: 499px) {
+	.MenuBtn,
+	.MenuBtnBurger {
 		display: none;
 	}
-} */
+}
 
 /* div {
 	margin: 0;

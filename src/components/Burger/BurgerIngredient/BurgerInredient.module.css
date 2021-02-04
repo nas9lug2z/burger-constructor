@@ -8,3 +8,12 @@
 .zIndex {
 	z-index: 0;
 }
+@media (max-width: 499px) {
+	.ingredientImg {
+		width: 200px;
+		display: block;
+		position: relative;
+		margin: 0 auto;
+		/* padding-top: -80px; */
+	}
+}
