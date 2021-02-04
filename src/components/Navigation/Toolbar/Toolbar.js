@@ -1,19 +1,17 @@
 import React from 'react';
-import Logo from '../../../assets/logo.svg';
 import classes from './Toolbar.module.css';
+import Logo from '../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
+import HamburgerButton from '../NavigationItems/HamburgerButton/HamburgerButton';
 
 const Toolbar = props => {
 	return (
 		<header className={classes.Toolbar}>
-			<div className={classes.Logo}>
-				<img src={Logo} alt='Logo'></img>
-			</div>
-			<div>MENU</div>
-
-			<nav>
+			<nav className={classes.DesktopOnly}>
 				<NavigationItems />
 			</nav>
+			<HamburgerButton toggleSideDrawer={props.toggleSideDrawer} />
+			<Logo white />
 		</header>
 	);
 };
