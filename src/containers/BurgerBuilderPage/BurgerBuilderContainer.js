@@ -102,41 +102,9 @@ class BurgerBuilderContainer extends Component {
 	};
 
 	checkoutContinueHandler = _ => {
-		// this.setState({ loading: true });
-		// const date = new Date();
-		// const order = {
-		// 	ingredient: this.state.ingredients,
-		// 	price: this.state.price,
-		// 	customer: {
-		// 		name: 'Nastia',
-		// 		address: {
-		// 			street: 'Street 4',
-		// 			zipcode: '4555',
-		// 			country: 'Spain',
-		// 		},
-		// 		email: 'test@example.com',
-		// 	},
-		// 	deliveryMethod: 'fastest',
-		// 	date: date,
-		// };
-		// axios
-		// 	.post('/orders.json', order)
-		// 	.then(res =>
-		// 		this.setState({
-		// 			loading: false,
-		// 			checkout: false,
-		// 			checkoutConfirmed: true,
-		// 		})
-		// 	)
-		// 	.catch(err =>
-		// 		this.setState({
-		// 			loading: false,
-		// 			checkout: false,
-		// 			checkoutConfirmed: false,
-		// 		})
-		// 	);
-
-		const transformedIngredients = [];
+		const transformedIngredients = [
+			`${encodeURIComponent('price')}=${encodeURIComponent(this.state.price)}`,
+		];
 
 		for (let ingredient in this.state.ingredients) {
 			if (this.state.ingredients[ingredient] !== 0) {
@@ -147,7 +115,6 @@ class BurgerBuilderContainer extends Component {
 				);
 			}
 		}
-
 		this.props.history.push({
 			pathname: '/checkout',
 			search: `?${transformedIngredients.join('&')}`,

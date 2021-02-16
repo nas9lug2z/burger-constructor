@@ -8,6 +8,7 @@ const CheckoutSummary = props => {
 		<div className={classes.CheckoutSummary}>
 			<h2>Here is your burger:</h2>
 			<Burger ingredients={props.ingredients} />
+			<h3>Total price: {props.price} €</h3>
 			<button onClick={props.cancelOrder} className='black-button'>
 				Cancel
 			</button>

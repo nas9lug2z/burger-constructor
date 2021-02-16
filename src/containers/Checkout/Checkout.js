@@ -4,32 +4,51 @@ import { Route } from 'react-router-dom';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
 class Checkout extends Component {
-	state = { ingredients: { bacon: 1, lettuce: 1, cheese: 1, beef: 1 } };
+	state = {
+		ingredients: {},
+		price: 0,
+		orderConfirmed: false,
+	};
 
 	componentDidMount() {
 		const searchQuery = new URLSearchParams(this.props.location.search);
+		let receivedPrice = 0;
 		let receivedIngredients = {};
 		for (let par of searchQuery.entries()) {
-			receivedIngredients[par[0]] = par[1];
+			if (par[0] === 'price') {
+				receivedPrice = par[1];
+			} else {
+				receivedIngredients[par[0]] = par[1];
+			}
 		}
-		this.setState({ ingredients: receivedIngredients });
+		this.setState({ price: receivedPrice, ingredients: receivedIngredients });
 	}
 	cancelOrderHandler = _ => {
+		this.setState({ orderConfirmed: false });
 		this.props.history.goBack();
 	};
 
 	confirmOrderHandler = _ => {
-		this.props.history.replace('/checkout/contact-data');
+		this.setState({ orderConfirmed: true }, _ => {
+			this.props.history.replace('/checkout/contact-data', {
+				ingredients: this.state.ingredients,
+				price: this.state.price,
+			});
+		});
 	};
 
 	render() {
+		const checkoutSummaryEl = (
+			<CheckoutSummary
+				ingredients={this.state.ingredients}
+				cancelOrder={this.cancelOrderHandler}
+				confirmOrder={this.confirmOrderHandler}
+				price={this.state.price}
+			/>
+		);
 		return (
 			<Fragment>
-				<CheckoutSummary
-					ingredients={this.state.ingredients}
-					cancelOrder={this.cancelOrderHandler}
-					confirmOrder={this.confirmOrderHandler}
-				/>
+				{!this.state.orderConfirmed ? checkoutSummaryEl : null}
 				<Route
 					path={`${this.props.match.url}/contact-data`}
 					component={ContactData}
