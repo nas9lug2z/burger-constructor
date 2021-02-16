@@ -29,7 +29,9 @@ const OrderSummary = props => {
 				<button onClick={props.modalClosed} className='black-button'>
 					Cancel
 				</button>
-				<button className='black-button'>Confirm Order</button>
+				<button className='black-button' onClick={props.checkoutContinue}>
+					Continue
+				</button>
 			</div>
 		</div>
 	);

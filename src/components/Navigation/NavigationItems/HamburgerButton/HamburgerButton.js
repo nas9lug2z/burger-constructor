@@ -7,7 +7,6 @@ const HamburgerButton = props => {
 	if (props.open) {
 		menuBtnBurgerClasses = [classes.MenuBtnBurger, classes.Open];
 	}
-	console.log(props.open);
 	return (
 		<div onClick={props.toggleSideDrawer} className={classes.MenuBtn}>
 			<div className={menuBtnBurgerClasses.join(' ')}></div>

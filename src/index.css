@@ -4,12 +4,12 @@
 }
 body {
 	margin: 0;
+	margin-top: var(--header-height);
+	margin-bottom: var(--header-height);
 	font-family: 'Open Sans', sans-serif;
 	color: var(--main-color);
 }
-main {
-	padding-top: var(--header-height);
-}
+
 .black-button {
 	background-color: var(--main-color);
 	color: white;
@@ -18,7 +18,7 @@ main {
 	text-transform: uppercase;
 	letter-spacing: 0.1em;
 	font-weight: 500;
-	margin: 0 5px;
+	margin: 5px;
 }
 .black-button:hover {
 	background-color: white;

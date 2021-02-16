@@ -36,7 +36,7 @@ const Burger = props => {
 				src={bottomBread}
 				alt='bottom bread'
 				className={ingredientClasses.ingredientImg}
-				style={{ zIndex: 2 }}></img>
+				style={{ zIndex: 2, marginBottom: '10px' }}></img>
 		</div>
 	);
 };
