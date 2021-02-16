@@ -135,15 +135,15 @@ class BurgerBuilderContainer extends Component {
 		// 			checkoutConfirmed: false,
 		// 		})
 		// 	);
-		console.log(this.state.ingredients);
-		const ingredientsList = { ...this.state.ingredients };
 
 		const transformedIngredients = [];
 
-		for (let ingredient in ingredientsList) {
-			if (ingredientsList[ingredient] !== 0) {
+		for (let ingredient in this.state.ingredients) {
+			if (this.state.ingredients[ingredient] !== 0) {
 				transformedIngredients.push(
-					`${ingredient}=${ingredientsList[ingredient]}`
+					`${encodeURIComponent(ingredient)}=${encodeURIComponent(
+						this.state.ingredients[ingredient]
+					)}`
 				);
 			}
 		}
