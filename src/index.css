@@ -27,5 +27,10 @@ body {
 }
 h1 {
 	margin: 0;
+	padding: 20px;
 	text-align: center;
+}
+.active {
+	color: white !important;
+	font-weight: 600;
 }

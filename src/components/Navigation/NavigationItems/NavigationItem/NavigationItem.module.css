@@ -13,11 +13,11 @@
 	justify-content: center;
 	align-items: center;
 	color: rgba(255, 255, 255, 0.6);
+	text-align: center;
 }
 .NavigationItem a:hover,
-.NavigationItem a:active,
-.NavigationItem a.active {
-	color: white;
+.NavigationItem a:active {
+	color: rgba(255, 255, 255, 1);
 	font-weight: 600;
 }
 
