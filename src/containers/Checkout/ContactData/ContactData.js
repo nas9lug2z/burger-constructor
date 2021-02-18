@@ -83,7 +83,6 @@ class ContactData extends Component {
 			<div className={classes.ContactDataContainer}>
 				<h2>Please leave your contact details</h2>{' '}
 				<form>
-					{' '}
 					<input type='text' name='name' placeholder='Your Name' />{' '}
 					<input type='text' name='email' placeholder='Your Email' />{' '}
 					<input type='text' name='street' placeholder='Your Street' />{' '}

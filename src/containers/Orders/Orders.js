@@ -5,7 +5,6 @@ import classes from './Orders.module.css';
 
 import Order from './Order/Order';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import { resetWarningCache } from 'prop-types';
 
 class Orders extends Component {
 	state = {
@@ -29,14 +28,6 @@ class Orders extends Component {
 	}
 
 	render() {
-		// const ordersList = { ...this.state.orders };
-		// console.log(this.state.orders);
-		// let orders = ordersList.map(singleOrder => {
-		// 	<li>{singleOrder['customer']}</li>;
-		// });
-
-		// console.log(orders);
-
 		return (
 			<Fragment>
 				{this.state.loading ? (
@@ -45,7 +36,7 @@ class Orders extends Component {
 					<div className={classes.Orders}>
 						<h1>Orders</h1>
 						{this.state.orders.map((order, index) => (
-							<Order order={order} id={index + 1} />
+							<Order order={order} key={order.id} id={index + 1} />
 						))}
 					</div>
 				)}
