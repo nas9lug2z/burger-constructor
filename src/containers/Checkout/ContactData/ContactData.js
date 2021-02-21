@@ -1,25 +1,127 @@
 import React, { Component, Fragment } from 'react';
 import axios from '../../../axios-orders';
+import lodash, { indexOf } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import classes from './ContactData.module.css';
 
 import Spinner from '../../../components/UI/Spinner/Spinner';
+import Input from '../../../components/UI/Input/Input';
+import { element } from 'prop-types';
 class ContactData extends Component {
 	state = {
-		// customer: {
-		// 	name: '',
-		// 	email: '',
-		// 	address: {
-		// 		street: '',
-		// 		postalCode: '',
-		// 	},
-		// },
 		loading: false,
 		orderPosted: false,
+		order: {
+			ingredients: this.props.location.state.ingredients,
+			price: this.props.location.state.price,
+			customer: {
+				name: {
+					value: '',
+					htmlTag: 'input',
+					htmlTagConfig: {
+						type: 'text',
+						placeholder: 'Your Name',
+					},
+					validation: {
+						validated: false,
+						rules: {
+							minLength: 3,
+							onlyNumberChars: true,
+						},
+					},
+				},
+
+				street: {
+					value: '',
+					htmlTag: 'input',
+					htmlTagConfig: {
+						type: 'text',
+						placeholder: 'Your Street',
+					},
+					validation: {
+						validated: false,
+						rules: {
+							minLength: 8,
+						},
+					},
+				},
+
+				postalcode: {
+					value: '',
+					htmlTag: 'input',
+					htmlTagConfig: {
+						type: 'text',
+						placeholder: 'Postal Code',
+					},
+					validation: {
+						validated: false,
+						rules: {
+							minLength: 4,
+							onlyNumberChars: true,
+						},
+					},
+				},
+
+				email: {
+					value: '',
+					htmlTag: 'input',
+					htmlTagConfig: {
+						type: 'email',
+						placeholder: 'Your Email',
+					},
+					validation: {
+						validated: false,
+						rules: {
+							minLength: 3,
+							requiredChars: ['@', '.'],
+						},
+					},
+				},
+			},
+		},
 	};
 
-	goBackHandler = _ => {
-		this.props.history.goBack();
+	stateDeepCopy = _ => {
+		return lodash.cloneDeep(this.state);
+	};
+
+	inputValidation = (value, element) => {
+		console.log('validation');
+		let isValid = false;
+		const inputValue = value.trim();
+
+		if (element.validation.rules.minLength) {
+			isValid = inputValue.length >= element.validation.rules.minLength;
+		}
+		//MORE RULES TO BE IMPLEMENTED
+
+		// if (element.validation.rules.requiredChars) {
+		// 	let check = 0;
+		// 	for (let char of element.validation.rules.requiredChars) {
+		// 		if (inputValue.includes(char)) {
+		// 			check += 1;
+		// 		}
+		// 	}
+
+		// 	isValid = inputValue.length === check;
+		// }
+		console.log(`is valid? ${isValid}`);
+
+		return isValid;
+	};
+
+	inputChangeHandler = e => {
+		const elName = e.target.name;
+		const value = e.target.value;
+		let orderCopy = lodash.cloneDeep(this.state.order);
+
+		orderCopy.customer[elName].value = value;
+		orderCopy.customer[elName].validation.validated = this.inputValidation(
+			value,
+			orderCopy.customer[elName]
+		);
+
+		this.setState({ order: orderCopy });
 	};
 
 	submitHandler = _ => {
@@ -30,23 +132,26 @@ class ContactData extends Component {
 		for (let node of inputNodeList) {
 			inputSummary[node.name] = node.value;
 		}
-		// this.setState(
-		// 	{
-		// 		customer: {
-		// 			name: inputSummary.name,
-		// 			email: inputSummary.email,
-		// 			address: {
-		// 				street: inputSummary.street,
-		// 				postalCode: inputSummary.postalcode,
-		// 			},
-		// 		},
-		// 	},
-		// 	_ => console.log(this.state)
-		// );
 
-		const date = new Date();
+		//setting the state with input elements
+
+		this.setState(
+			{
+				customer: {
+					name: inputSummary.name,
+					email: inputSummary.email,
+					address: {
+						street: inputSummary.street,
+						postalCode: inputSummary.postalcode,
+					},
+				},
+			},
+			_ => console.log(this.state)
+		);
+
+		//submitting to the firebase
 		const order = {
-			ingredient: this.props.location.state.ingredients,
+			ingredients: this.props.location.state.ingredients,
 			price: this.props.location.state.price,
 			customer: {
 				name: inputSummary.name,
@@ -56,8 +161,6 @@ class ContactData extends Component {
 				},
 				email: inputSummary.email,
 			},
-			deliveryMethod: 'fastest',
-			date: date,
 		};
 		axios
 			.post('/orders.json', order)
@@ -78,16 +181,33 @@ class ContactData extends Component {
 			);
 	};
 
+	goBackHandler = _ => {
+		this.props.history.goBack();
+	};
+
 	render() {
+		const extractedInputElements = Object.entries(
+			lodash.cloneDeep(this.state.order.customer)
+		);
+		const inputComponents = extractedInputElements.map((elem, index) => {
+			const [elemName, elemProperties] = elem;
+			return (
+				<Input
+					key={elemName + index}
+					name={elemName}
+					htmltag={elemProperties.htmlTag}
+					type={elemProperties.htmlTagConfig.type}
+					placeholder={elemProperties.htmlTagConfig.placeholder}
+					isRequired={elemProperties.validation}
+					changed={this.inputChangeHandler}
+				/>
+			);
+		});
+
 		const contactDataEl = (
 			<div className={classes.ContactDataContainer}>
-				<h2>Please leave your contact details</h2>{' '}
-				<form>
-					<input type='text' name='name' placeholder='Your Name' />{' '}
-					<input type='text' name='email' placeholder='Your Email' />{' '}
-					<input type='text' name='street' placeholder='Your Street' />{' '}
-					<input type='text' name='postalcode' placeholder='Your Postalcode' />
-				</form>
+				<h2>Please leave your contact details</h2>
+				<form>{inputComponents}</form>
 				<button onClick={this.goBackHandler} className='black-button'>
 					Cancel
 				</button>

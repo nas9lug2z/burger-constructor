@@ -1,0 +1,21 @@
+.Input {
+	padding: 5px;
+	margin: 5px 0;
+	outline: none;
+	border: 1px solid #ccc;
+}
+.Input:focus {
+	background-color: #ccc;
+	outline: none;
+}
+.Label {
+	text-align: left;
+	margin-top: 10px;
+	font-weight: bold;
+}
+.Validation {
+	display: block;
+	color: red;
+	font-size: 0.6rem;
+	text-align: right;
+}
