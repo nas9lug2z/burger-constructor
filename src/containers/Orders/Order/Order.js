@@ -3,8 +3,8 @@ import classes from './Order.module.css';
 
 const Order = props => {
 	let igArray = [];
-	Object.keys(props.order.ingredient).map((ig, index) => {
-		igArray.push(`${ig} (${props.order.ingredient[ig]})`);
+	Object.keys(props.order.ingredients).map((ig, index) => {
+		igArray.push(`${ig} (${props.order.ingredients[ig]})`);
 	});
 
 	return (

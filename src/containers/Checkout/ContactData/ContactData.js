@@ -81,10 +81,6 @@ class ContactData extends Component {
 		},
 	};
 
-	stateDeepCopy = _ => {
-		return lodash.cloneDeep(this.state);
-	};
-
 	inputValidation = (value, element) => {
 		console.log('validation');
 		let isValid = false;
@@ -105,8 +101,6 @@ class ContactData extends Component {
 
 		// 	isValid = inputValue.length === check;
 		// }
-		console.log(`is valid? ${isValid}`);
-
 		return isValid;
 	};
 
@@ -126,40 +120,18 @@ class ContactData extends Component {
 
 	submitHandler = _ => {
 		this.setState({ loading: true });
-		const inputNodeList = document.querySelectorAll('input');
-		const inputSummary = {};
-
-		for (let node of inputNodeList) {
-			inputSummary[node.name] = node.value;
-		}
-
-		//setting the state with input elements
-
-		this.setState(
-			{
-				customer: {
-					name: inputSummary.name,
-					email: inputSummary.email,
-					address: {
-						street: inputSummary.street,
-						postalCode: inputSummary.postalcode,
-					},
-				},
-			},
-			_ => console.log(this.state)
-		);
 
 		//submitting to the firebase
 		const order = {
-			ingredients: this.props.location.state.ingredients,
-			price: this.props.location.state.price,
+			ingredients: this.state.order.ingredients,
+			price: this.state.order.price,
 			customer: {
-				name: inputSummary.name,
+				name: this.state.order.customer.name,
 				address: {
-					street: inputSummary.street,
-					postalcode: inputSummary.postalcode,
+					street: this.state.order.customer.street,
+					postalcode: this.state.order.customer.postalcode,
 				},
-				email: inputSummary.email,
+				email: this.state.order.customer.email,
 			},
 		};
 		axios
