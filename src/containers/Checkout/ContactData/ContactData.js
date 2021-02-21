@@ -126,14 +126,15 @@ class ContactData extends Component {
 			ingredients: this.state.order.ingredients,
 			price: this.state.order.price,
 			customer: {
-				name: this.state.order.customer.name,
+				name: this.state.order.customer.name.value,
 				address: {
-					street: this.state.order.customer.street,
-					postalcode: this.state.order.customer.postalcode,
+					street: this.state.order.customer.street.value,
+					postalcode: this.state.order.customer.postalcode.value,
 				},
-				email: this.state.order.customer.email,
+				email: this.state.order.customer.email.value,
 			},
 		};
+		console.log(order);
 		axios
 			.post('/orders.json', order)
 			.then(res =>
