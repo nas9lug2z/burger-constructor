@@ -1,12 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import axios from '../../../axios-orders';
-import lodash, { indexOf } from 'lodash';
-import { withRouter } from 'react-router-dom';
+import lodash from 'lodash';
 import classes from './ContactData.module.css';
+import validationRules from '../../../components/UI/Input/validation/validation';
 
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
-import { element } from 'prop-types';
 class ContactData extends Component {
 	state = {
 		loading: false,
@@ -26,7 +25,6 @@ class ContactData extends Component {
 						validated: false,
 						rules: {
 							minLength: 3,
-							onlyNumberChars: true,
 						},
 					},
 				},
@@ -72,7 +70,7 @@ class ContactData extends Component {
 					validation: {
 						validated: false,
 						rules: {
-							minLength: 3,
+							minLength: 8,
 							requiredChars: ['@', '.'],
 						},
 					},
@@ -82,25 +80,29 @@ class ContactData extends Component {
 	};
 
 	inputValidation = (value, element) => {
-		console.log('validation');
-		let isValid = false;
 		const inputValue = value.trim();
+		const rules = element.validation.rules;
+		let isValid = true;
 
-		if (element.validation.rules.minLength) {
-			isValid = inputValue.length >= element.validation.rules.minLength;
+		if (rules.onlyNumberChars && isValid) {
+			isValid = validationRules.checkNumbersOnly(inputValue);
 		}
-		//MORE RULES TO BE IMPLEMENTED
 
-		// if (element.validation.rules.requiredChars) {
-		// 	let check = 0;
-		// 	for (let char of element.validation.rules.requiredChars) {
-		// 		if (inputValue.includes(char)) {
-		// 			check += 1;
-		// 		}
-		// 	}
+		if (rules.requiredChars && isValid) {
+			isValid = validationRules.checkRequiredChars(
+				inputValue,
+				rules.requiredChars
+			);
+		}
 
-		// 	isValid = inputValue.length === check;
-		// }
+		if (rules.minLength && isValid) {
+			isValid = validationRules.checkMinLength(inputValue, rules.minLength);
+		}
+
+		if (rules.maxLength && isValid) {
+			isValid = validationRules.checkMaxLength(inputValue, rules.maxLength);
+		}
+
 		return isValid;
 	};
 

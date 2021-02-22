@@ -1,4 +1,3 @@
-import { property } from 'lodash';
 import React, { Fragment } from 'react';
 import classes from './Input.module.css';
 
