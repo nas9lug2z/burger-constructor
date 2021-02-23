@@ -10,6 +10,7 @@ class ContactData extends Component {
 	state = {
 		loading: false,
 		orderPosted: false,
+		formValid: false,
 		order: {
 			ingredients: this.props.location.state.ingredients,
 			price: this.props.location.state.price,
@@ -27,6 +28,7 @@ class ContactData extends Component {
 							minLength: 3,
 						},
 					},
+					touchedByUser: false,
 				},
 
 				street: {
@@ -42,6 +44,7 @@ class ContactData extends Component {
 							minLength: 8,
 						},
 					},
+					touchedByUser: false,
 				},
 
 				postalcode: {
@@ -58,6 +61,7 @@ class ContactData extends Component {
 							onlyNumberChars: true,
 						},
 					},
+					touchedByUser: false,
 				},
 
 				email: {
@@ -74,6 +78,7 @@ class ContactData extends Component {
 							requiredChars: ['@', '.'],
 						},
 					},
+					touchedByUser: false,
 				},
 			},
 		},
@@ -106,18 +111,31 @@ class ContactData extends Component {
 		return isValid;
 	};
 
+	formValidation = formFields => {
+		let isFormValid = true;
+		const transformedFields = Object.entries(lodash.cloneDeep(formFields));
+		return transformedFields.every(
+			field => field[1].validation.validated && isFormValid
+		);
+	};
+
 	inputChangeHandler = e => {
 		const elName = e.target.name;
 		const value = e.target.value;
 		let orderCopy = lodash.cloneDeep(this.state.order);
 
+		//set value in the order copy and validate it
 		orderCopy.customer[elName].value = value;
 		orderCopy.customer[elName].validation.validated = this.inputValidation(
 			value,
 			orderCopy.customer[elName]
 		);
+		orderCopy.customer[elName].touchedByUser = true;
 
-		this.setState({ order: orderCopy });
+		//validate the whole form
+		const isFormValid = this.formValidation(orderCopy.customer);
+
+		this.setState({ order: orderCopy, formValid: isFormValid });
 	};
 
 	submitHandler = _ => {
@@ -175,9 +193,12 @@ class ContactData extends Component {
 					placeholder={elemProperties.htmlTagConfig.placeholder}
 					isRequired={elemProperties.validation}
 					changed={this.inputChangeHandler}
+					touchedByUser={elemProperties.touchedByUser}
 				/>
 			);
 		});
+
+		// const submitEnabled =
 
 		const contactDataEl = (
 			<div className={classes.ContactDataContainer}>
@@ -186,7 +207,10 @@ class ContactData extends Component {
 				<button onClick={this.goBackHandler} className='black-button'>
 					Cancel
 				</button>
-				<button onClick={this.submitHandler} className='black-button'>
+				<button
+					onClick={this.submitHandler}
+					className='black-button'
+					disabled={!this.state.formValid}>
 					Place order
 				</button>
 			</div>
