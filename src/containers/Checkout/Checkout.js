@@ -1,28 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
 class Checkout extends Component {
 	state = {
-		ingredients: {},
-		price: 0,
 		orderConfirmed: false,
 	};
 
-	componentDidMount() {
-		const searchQuery = new URLSearchParams(this.props.location.search);
-		let receivedPrice = 0;
-		let receivedIngredients = {};
-		for (let par of searchQuery.entries()) {
-			if (par[0] === 'price') {
-				receivedPrice = par[1];
-			} else {
-				receivedIngredients[par[0]] = par[1];
-			}
-		}
-		this.setState({ price: receivedPrice, ingredients: receivedIngredients });
-	}
 	cancelOrderHandler = _ => {
 		this.setState({ orderConfirmed: false });
 		this.props.history.goBack();
@@ -40,12 +26,13 @@ class Checkout extends Component {
 	render() {
 		const checkoutSummaryEl = (
 			<CheckoutSummary
-				ingredients={this.state.ingredients}
+				ingredients={this.props.ingredients}
 				cancelOrder={this.cancelOrderHandler}
 				confirmOrder={this.confirmOrderHandler}
-				price={this.state.price}
+				price={this.props.price}
 			/>
 		);
+
 		return (
 			<Fragment>
 				{!this.state.orderConfirmed ? checkoutSummaryEl : null}
@@ -58,4 +45,11 @@ class Checkout extends Component {
 	}
 }
 
-export default Checkout;
+const mapStateToProps = state => {
+	return {
+		price: state.prices.price,
+		ingredients: state.chosenIngredients.ingredients,
+	};
+};
+
+export default connect(mapStateToProps)(Checkout);

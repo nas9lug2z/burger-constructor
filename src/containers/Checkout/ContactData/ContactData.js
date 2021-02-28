@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import axios from '../../../axios-orders';
 import lodash from 'lodash';
+import { connect } from 'react-redux';
+
 import classes from './ContactData.module.css';
 import validationRules from '../../../components/UI/Input/validation/validation';
 
@@ -141,10 +143,12 @@ class ContactData extends Component {
 	submitHandler = _ => {
 		this.setState({ loading: true });
 
+		//remove ingredients with 0:
+
 		//submitting to the firebase
 		const order = {
-			ingredients: this.state.order.ingredients,
-			price: this.state.order.price,
+			ingredients: this.props.ingredients,
+			price: this.props.price,
 			customer: {
 				name: this.state.order.customer.name.value,
 				address: {
@@ -222,4 +226,11 @@ class ContactData extends Component {
 	}
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+	return {
+		price: state.prices.price,
+		ingredients: state.chosenIngredients.ingredients,
+	};
+};
+
+export default connect(mapStateToProps)(ContactData);

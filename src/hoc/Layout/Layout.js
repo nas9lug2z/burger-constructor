@@ -9,7 +9,6 @@ class Layout extends Component {
 	};
 
 	sideDrawerToggleHandler = _ => {
-		console.log('clicked');
 		this.setState(prevState => {
 			return { showSideDrawer: !prevState.showSideDrawer };
 		});
@@ -31,7 +30,7 @@ class Layout extends Component {
 					toggleSideDrawer={this.sideDrawerToggleHandler}
 					close={this.sideDrawerClosedHandler}
 				/>
-				<body>{this.props.children}</body>
+				<div className='body'>{this.props.children}</div>
 			</Fragment>
 		);
 	}
