@@ -1,43 +1,45 @@
-import * as actionTypes from '../actionTypes';
+import * as actionTypes from '../actions/actionTypes';
+import { updateObject } from '../utility';
 
 const initialState = {
-	ingredients: {
-		egg: 0,
-		tomatoes: 0,
-		pickles: 0,
-		onions: 0,
-		bacon: 0,
-		cheese: 0,
-		beef: 0,
-		falafel: 0,
-		rucola: 0,
-		lettuce: 0,
-	},
+	ingredients: null,
+	error: false,
+};
+const addIngredient = (state, action) => {
+	return updateObject(state, {
+		ingredients: {
+			...state.ingredients,
+			[action.payload.ingredient]:
+				state.ingredients[action.payload.ingredient] + 1,
+		},
+	});
+};
+
+const removeIngredient = (state, action) => {
+	return action.payload.currentQuantity > 0
+		? updateObject(state, {
+				ingredients: {
+					...state.ingredients,
+					[action.payload.ingredient]:
+						state.ingredients[action.payload.ingredient] - 1,
+				},
+		  })
+		: state;
 };
 
 const ingredientsReducer = (state = initialState, action) => {
 	switch (action.type) {
+		case actionTypes.SET_INGREDIENTS:
+			return updateObject(state, {
+				ingredients: action.payload.ingredients,
+				error: false,
+			});
+		case actionTypes.FETCH_INGREDIENTS_FAILED:
+			return updateObject(state, { error: true });
 		case actionTypes.ADD_INGREDIENT:
-			return {
-				...state,
-				ingredients: {
-					...state.ingredients,
-					[action.payload.ingredient]:
-						state.ingredients[action.payload.ingredient] + 1,
-				},
-			};
+			return addIngredient(state, action);
 		case actionTypes.REMOVE_INGREDIENT:
-			return action.payload.currentQuantity > 0
-				? {
-						...state,
-						ingredients: {
-							...state.ingredients,
-							[action.payload.ingredient]:
-								state.ingredients[action.payload.ingredient] - 1,
-						},
-				  }
-				: state;
-
+			return removeIngredient(state, action);
 		default:
 			return state;
 	}

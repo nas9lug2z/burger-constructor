@@ -1,41 +1,44 @@
-import * as actionTypes from '../actionTypes';
-
-const PRICES = {
-	egg: 1,
-	tomatoes: 0.45,
-	pickles: 0.35,
-	onions: 0.4,
-	bacon: 1.2,
-	cheese: 1,
-	beef: 2.85,
-	falafel: 2.15,
-	rucola: 0.6,
-	lettuce: 0.55,
-};
+import * as actionTypes from '../actions/actionTypes';
+import { updateObject } from '../utility';
 
 const initialState = {
-	price: 4.35,
+	initialPrice: 0,
+	ingredientPrices: null,
 };
 
+//Aux functions
+const addIngredient = (state, action) => {
+	const newPrice =
+		Math.round(
+			(state.initialPrice + state.ingredientPrices[action.payload.ingredient]) *
+				100
+		) / 100;
+	return updateObject(state, { initialPrice: newPrice });
+};
+
+const removeIngredient = (state, action) => {
+	const newPrice =
+		Math.round(
+			(state.initialPrice - state.ingredientPrices[action.payload.ingredient]) *
+				100
+		) / 100;
+	return action.payload.currentQuantity > 0
+		? updateObject(state, { initialPrice: newPrice })
+		: state;
+};
+
+//REDUCER
 const priceReducer = (state = initialState, action) => {
 	switch (action.type) {
+		case actionTypes.SET_PRICES:
+			return updateObject(state, {
+				initialPrice: action.payload.initialPrice,
+				ingredientPrices: action.payload.ingredientPrices,
+			});
 		case actionTypes.ADD_INGREDIENT:
-			return {
-				...state,
-				price:
-					Math.round((state.price + PRICES[action.payload.ingredient]) * 100) /
-					100,
-			};
+			return addIngredient(state, action);
 		case actionTypes.REMOVE_INGREDIENT:
-			return action.payload.currentQuantity > 0
-				? {
-						...state,
-						price:
-							Math.round(
-								(state.price - PRICES[action.payload.ingredient]) * 100
-							) / 100,
-				  }
-				: state;
+			return removeIngredient(state, action);
 		default:
 			return state;
 	}
