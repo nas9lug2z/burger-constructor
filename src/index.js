@@ -11,11 +11,13 @@ import reportWebVitals from './reportWebVitals';
 import chosenIngredientsReducer from './store/reducers/chosenIngredientsReducer';
 import priceReducer from './store/reducers/priceReducer';
 import orderCheckoutReducer from './store/reducers/orderCheckoutReducer';
+import orderListReducer from './store/reducers/orderListReducer';
 
 const rootReducer = combineReducers({
 	chosenIngredients: chosenIngredientsReducer,
 	order: orderCheckoutReducer,
 	prices: priceReducer,
+	orderList: orderListReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
