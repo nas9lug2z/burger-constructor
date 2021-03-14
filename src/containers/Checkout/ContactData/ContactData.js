@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 
 import classes from './ContactData.module.css';
 import validationRules from '../../../components/UI/Input/validation/validation';
+import * as orderCheckoutActions from '../../../store/actions/orderCheckoutActions';
 
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 class ContactData extends Component {
 	state = {
-		loading: false,
 		orderPosted: false,
 		formValid: false,
 		order: {
@@ -141,13 +141,16 @@ class ContactData extends Component {
 	};
 
 	submitHandler = _ => {
-		this.setState({ loading: true });
-
 		//remove ingredients with 0:
+		let reducedIngredients = Object.fromEntries(
+			Object.entries({ ...this.props.ingredients }).filter(
+				elem => elem[1] !== 0
+			)
+		);
 
 		//submitting to the firebase
 		const order = {
-			ingredients: this.props.ingredients,
+			ingredients: reducedIngredients,
 			price: this.props.price,
 			customer: {
 				name: this.state.order.customer.name.value,
@@ -158,28 +161,16 @@ class ContactData extends Component {
 				email: this.state.order.customer.email.value,
 			},
 		};
-		console.log(order);
-		axios
-			.post('/orders.json', order)
-			.then(res =>
-				this.setState(
-					{
-						loading: false,
-						orderPosted: true,
-					},
-					_ => this.props.history.replace('/')
-				)
-			)
-			.catch(err =>
-				this.setState({
-					loading: false,
-					orderPosted: false,
-				})
-			);
+		this.props.submitOrder(order);
 	};
 
 	goBackHandler = _ => {
 		this.props.history.goBack();
+	};
+
+	goHomeHandler = _ => {
+		this.props.history.replace('/');
+		this.props.resetOrder();
 	};
 
 	render() {
@@ -202,9 +193,7 @@ class ContactData extends Component {
 			);
 		});
 
-		// const submitEnabled =
-
-		const contactDataEl = (
+		let contactDataEl = (
 			<div className={classes.ContactDataContainer}>
 				<h2>Please leave your contact details</h2>
 				<form>{inputComponents}</form>
@@ -220,17 +209,53 @@ class ContactData extends Component {
 			</div>
 		);
 
+		if (this.props.orderError) {
+			contactDataEl = (
+				<div className={classes.ContactDataContainer}>
+					<h2>There was an error processing your order.</h2>
+					<h3>Order message: {this.props.orderError}</h3>
+					<button onClick={this.goHomeHandler} className='black-button'>
+						Return to the home page
+					</button>
+				</div>
+			);
+		}
+
+		if (this.props.orderPosted) {
+			contactDataEl = (
+				<div className={classes.ContactDataContainer}>
+					<h2>Your order has been sent to the restaurant!</h2>
+					<h3>Your order price: {this.props.price}</h3>
+					<button onClick={this.goHomeHandler} className='black-button'>
+						Return to the home page
+					</button>
+				</div>
+			);
+		}
+
 		return (
-			<Fragment>{this.state.loading ? <Spinner /> : contactDataEl}</Fragment>
+			<Fragment>{this.props.loading ? <Spinner /> : contactDataEl}</Fragment>
 		);
 	}
 }
 
 const mapStateToProps = state => {
 	return {
-		price: state.prices.price,
+		price: state.prices.initialPrice,
 		ingredients: state.chosenIngredients.ingredients,
+		orderPosted: state.order.orderPosted,
+		order: state.order.order,
+		orderError: state.order.error,
+		errorMessage: state.order.errorMessage,
+		loading: state.order.loading,
 	};
 };
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+	return {
+		submitOrder: order => dispatch(orderCheckoutActions.submitOrder(order)),
+		resetOrder: _ => dispatch(orderCheckoutActions.resetOrder()),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactData);

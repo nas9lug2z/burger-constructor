@@ -18,8 +18,8 @@ class BurgerBuilderContainer extends Component {
 	};
 
 	componentDidMount() {
-		this.props.initIngredients();
 		this.props.initPrices();
+		this.props.initIngredients();
 	}
 
 	updatePurchaseState = _ => {

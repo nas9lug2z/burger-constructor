@@ -40,6 +40,8 @@ const ingredientsReducer = (state = initialState, action) => {
 			return addIngredient(state, action);
 		case actionTypes.REMOVE_INGREDIENT:
 			return removeIngredient(state, action);
+		case actionTypes.SUBMIT_ORDER:
+			return state;
 		default:
 			return state;
 	}

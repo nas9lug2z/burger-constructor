@@ -10,9 +10,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import chosenIngredientsReducer from './store/reducers/chosenIngredientsReducer';
 import priceReducer from './store/reducers/priceReducer';
+import orderCheckoutReducer from './store/reducers/orderCheckoutReducer';
 
 const rootReducer = combineReducers({
 	chosenIngredients: chosenIngredientsReducer,
+	order: orderCheckoutReducer,
 	prices: priceReducer,
 });
 
