@@ -12,12 +12,14 @@ import chosenIngredientsReducer from './store/reducers/chosenIngredientsReducer'
 import priceReducer from './store/reducers/priceReducer';
 import orderCheckoutReducer from './store/reducers/orderCheckoutReducer';
 import orderListReducer from './store/reducers/orderListReducer';
+import authReducer from './store/reducers/authReducer';
 
 const rootReducer = combineReducers({
 	chosenIngredients: chosenIngredientsReducer,
 	order: orderCheckoutReducer,
 	prices: priceReducer,
 	orderList: orderListReducer,
+	auth: authReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

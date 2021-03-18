@@ -7,6 +7,8 @@ const Order = props => {
 		igArray.push(`${ig} (${props.order.ingredients[ig]})`);
 	});
 
+	console.log(props.order)
+
 	return (
 		<div className={classes.Order}>
 			<h4>

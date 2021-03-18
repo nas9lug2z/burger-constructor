@@ -1,11 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import axios from '../../../axios-orders';
 import lodash from 'lodash';
 import { connect } from 'react-redux';
 
-import classes from './ContactData.module.css';
-import validationRules from '../../../components/UI/Input/validation/validation';
-import * as orderCheckoutActions from '../../../store/actions/orderCheckoutActions';
+import inputValidation from '../../../components/UI/Input/validation/inputValidation';
+import formValidation from '../../../components/UI/Input/validation/formValidation';
+import * as actions from '../../../store/actions/index';
 
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
@@ -86,41 +85,6 @@ class ContactData extends Component {
 		},
 	};
 
-	inputValidation = (value, element) => {
-		const inputValue = value.trim();
-		const rules = element.validation.rules;
-		let isValid = true;
-
-		if (rules.onlyNumberChars && isValid) {
-			isValid = validationRules.checkNumbersOnly(inputValue);
-		}
-
-		if (rules.requiredChars && isValid) {
-			isValid = validationRules.checkRequiredChars(
-				inputValue,
-				rules.requiredChars
-			);
-		}
-
-		if (rules.minLength && isValid) {
-			isValid = validationRules.checkMinLength(inputValue, rules.minLength);
-		}
-
-		if (rules.maxLength && isValid) {
-			isValid = validationRules.checkMaxLength(inputValue, rules.maxLength);
-		}
-
-		return isValid;
-	};
-
-	formValidation = formFields => {
-		let isFormValid = true;
-		const transformedFields = Object.entries(lodash.cloneDeep(formFields));
-		return transformedFields.every(
-			field => field[1].validation.validated && isFormValid
-		);
-	};
-
 	inputChangeHandler = e => {
 		const elName = e.target.name;
 		const value = e.target.value;
@@ -128,14 +92,14 @@ class ContactData extends Component {
 
 		//set value in the order copy and validate it
 		orderCopy.customer[elName].value = value;
-		orderCopy.customer[elName].validation.validated = this.inputValidation(
+		orderCopy.customer[elName].validation.validated = inputValidation(
 			value,
-			orderCopy.customer[elName]
+			orderCopy.customer[elName].validation.rules
 		);
 		orderCopy.customer[elName].touchedByUser = true;
 
 		//validate the whole form
-		const isFormValid = this.formValidation(orderCopy.customer);
+		const isFormValid = formValidation(orderCopy.customer);
 
 		this.setState({ order: orderCopy, formValid: isFormValid });
 	};
@@ -194,7 +158,7 @@ class ContactData extends Component {
 		});
 
 		let contactDataEl = (
-			<div className={classes.ContactDataContainer}>
+			<div className='pageContainer'>
 				<h2>Please leave your contact details</h2>
 				<form>{inputComponents}</form>
 				<button onClick={this.goBackHandler} className='black-button'>
@@ -211,7 +175,7 @@ class ContactData extends Component {
 
 		if (this.props.orderError) {
 			contactDataEl = (
-				<div className={classes.ContactDataContainer}>
+				<div className='pageContainer'>
 					<h2>There was an error processing your order.</h2>
 					<h3>Order message: {this.props.orderError}</h3>
 					<button onClick={this.goHomeHandler} className='black-button'>
@@ -223,7 +187,7 @@ class ContactData extends Component {
 
 		if (this.props.orderPosted) {
 			contactDataEl = (
-				<div className={classes.ContactDataContainer}>
+				<div className='pageContainer'>
 					<h2>Your order has been sent to the restaurant!</h2>
 					<h3>Your order price: {this.props.price}</h3>
 					<button onClick={this.goHomeHandler} className='black-button'>
@@ -253,8 +217,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		submitOrder: order => dispatch(orderCheckoutActions.submitOrder(order)),
-		resetOrder: _ => dispatch(orderCheckoutActions.resetOrder()),
+		submitOrder: order => dispatch(actions.submitOrder(order)),
+		resetOrder: _ => dispatch(actions.resetOrder()),
 	};
 };
 

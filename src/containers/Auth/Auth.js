@@ -1,0 +1,162 @@
+import React, { Component, Fragment } from 'react';
+import lodash from 'lodash';
+import { connect } from 'react-redux';
+
+import * as classes from './Auth.module.css';
+import inputValidation from '../../components/UI/Input/validation/inputValidation';
+import formValidation from '../../components/UI/Input/validation/formValidation';
+import * as actions from '../../store/actions/index';
+import errorConverter from '../../store/errorsConverter';
+
+import Input from '../../components/UI/Input/Input';
+import Spinner from '../../components/UI/Spinner/Spinner';
+
+class Auth extends Component {
+	state = {
+		formValid: false,
+		isSignedUp: false,
+		fields: {
+			email: {
+				value: '',
+				htmlTag: 'input',
+				htmlTagConfig: {
+					type: 'email',
+					placeholder: 'Email Address',
+				},
+				validation: {
+					validated: false,
+					rules: {
+						minLength: 8,
+						requiredChars: ['@', '.'],
+					},
+				},
+				touchedByUser: false,
+			},
+			password: {
+				value: '',
+				htmlTag: 'input',
+				htmlTagConfig: {
+					type: 'password',
+					placeholder: 'Password (min. 8 characters)',
+				},
+				validation: {
+					validated: false,
+					rules: {
+						minLength: 8,
+					},
+				},
+				touchedByUser: false,
+			},
+		},
+	};
+
+	inputChangeHandler = e => {
+		const elName = e.target.name;
+		let fieldsDeepCopy = lodash.cloneDeep(this.state.fields);
+
+		fieldsDeepCopy[elName].value = e.target.value;
+		fieldsDeepCopy[elName].validation.validated = inputValidation(
+			e.target.value,
+			fieldsDeepCopy[elName].validation.rules
+		);
+		fieldsDeepCopy[elName].touchedByUser = true;
+
+		const isFormValid = formValidation(fieldsDeepCopy);
+
+		this.setState({ fields: fieldsDeepCopy, formValid: isFormValid });
+	};
+
+	authHandler = _ => {
+		this.props.auth(
+			this.state.fields.email.value,
+			this.state.fields.password.value,
+			this.state.isSignedUp
+		);
+	};
+
+	goBackHandler = _ => {
+		this.props.history.goBack();
+	};
+
+	switchAuthMethodHandler = _ => {
+		this.setState(prevState => {
+			return { isSignedUp: !prevState.isSignedUp };
+		});
+	};
+
+	render() {
+		const deepCopyFields = Object.entries(lodash.cloneDeep(this.state.fields));
+
+		const inputFieldsEl = deepCopyFields.map((elem, index) => {
+			const [elemName, elemProperties] = elem;
+			return (
+				<Input
+					key={elemName + index}
+					name={elemName}
+					htmltag={elemProperties.htmlTag}
+					type={elemProperties.htmlTagConfig.type}
+					placeholder={elemProperties.htmlTagConfig.placeholder}
+					isRequired={elemProperties.validation}
+					changed={this.inputChangeHandler}
+					touchedByUser={elemProperties.touchedByUser}
+				/>
+			);
+		});
+
+		let method = 'Register';
+		if (this.state.isSignedUp) {
+			method = 'Log in';
+		}
+
+		let formEl = (
+			<Fragment>
+				<h1>{method} to make an order</h1>
+				<form>{inputFieldsEl}</form>
+				<button className='black-button' onClick={this.goBackHandler}>
+					Go Back
+				</button>
+				<button className='black-button' onClick={this.authHandler}>
+					{method}
+				</button>
+				<div>
+					<span>
+						{this.state.isSignedUp
+							? "Don't have an account?"
+							: 'Already registered?'}
+					</span>
+					<button
+						className={`${classes.Inline} black-button`}
+						onClick={this.switchAuthMethodHandler}>
+						{this.state.isSignedUp ? 'Register' : 'Log in'}
+					</button>
+				</div>
+			</Fragment>
+		);
+
+		if (this.props.error) {
+			formEl = errorConverter(this.props.error);
+		}
+
+		return (
+			<div className='pageContainer'>
+				{this.props.loading ? <Spinner /> : formEl}
+			</div>
+		);
+	}
+}
+
+const mapStateToProps = state => {
+	return {
+		loading: state.auth.loading,
+		error: state.auth.error,
+	};
+};
+
+const mapDispatchToProp = dispatch => {
+	return {
+		auth: (email, password, isSignedUp) =>
+			dispatch(actions.auth(email, password, isSignedUp)),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProp)(Auth);

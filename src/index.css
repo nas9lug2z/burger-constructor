@@ -14,6 +14,10 @@ h1 {
 	padding: 20px;
 	text-align: center;
 }
+.pageContainer {
+	margin: auto;
+	text-align: center;
+}
 
 .black-button {
 	background-color: var(--main-color);
@@ -35,4 +39,12 @@ h1 {
 	background-color: lightgrey;
 	border: 2px solid lightgrey;
 	color: darkgrey;
+}
+form {
+	margin: auto;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	max-width: 450px;
+	margin-bottom: 1.5rem;
 }
