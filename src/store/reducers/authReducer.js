@@ -5,7 +5,7 @@ const initialState = {
 	tokenId: null,
 	userId: null,
 	error: null,
-	loading: null,
+	loading: false,
 };
 
 const expirationDate = date => {};
@@ -27,6 +27,13 @@ const authReducer = (state = initialState, action) => {
 				error: null,
 				tokenId: action.payload.tokenId,
 				userId: action.payload.userId,
+			});
+		case actionTypes.LOGOUT:
+			return updateObject(state, {
+				error: null,
+				tokenId: null,
+				userId: null,
+				loading: false,
 			});
 		default:
 			return state;

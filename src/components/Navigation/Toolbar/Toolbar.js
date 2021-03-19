@@ -8,7 +8,7 @@ const Toolbar = props => {
 	return (
 		<header className={classes.Toolbar}>
 			<nav className={classes.DesktopOnly}>
-				<NavigationItems />
+				<NavigationItems authenticated={props.authenticated} />
 			</nav>
 			<HamburgerButton
 				toggleSideDrawer={props.toggleSideDrawer}

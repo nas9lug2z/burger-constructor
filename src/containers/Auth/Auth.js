@@ -2,14 +2,15 @@ import React, { Component, Fragment } from 'react';
 import lodash from 'lodash';
 import { connect } from 'react-redux';
 
-import * as classes from './Auth.module.css';
 import inputValidation from '../../components/UI/Input/validation/inputValidation';
 import formValidation from '../../components/UI/Input/validation/formValidation';
 import * as actions from '../../store/actions/index';
-import errorConverter from '../../store/errorsConverter';
 
 import Input from '../../components/UI/Input/Input';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import Login from './Login/Login';
+import Register from './Register/Register';
+import Logout from './Logout/Logout';
 
 class Auth extends Component {
 	state = {
@@ -103,43 +104,33 @@ class Auth extends Component {
 			);
 		});
 
-		let method = 'Register';
-		if (this.state.isSignedUp) {
-			method = 'Log in';
-		}
-
-		let formEl = (
+		let authFormEl = (
 			<Fragment>
-				<h1>{method} to make an order</h1>
-				<form>{inputFieldsEl}</form>
-				<button className='black-button' onClick={this.goBackHandler}>
-					Go Back
-				</button>
-				<button className='black-button' onClick={this.authHandler}>
-					{method}
-				</button>
-				<div>
-					<span>
-						{this.state.isSignedUp
-							? "Don't have an account?"
-							: 'Already registered?'}
-					</span>
-					<button
-						className={`${classes.Inline} black-button`}
-						onClick={this.switchAuthMethodHandler}>
-						{this.state.isSignedUp ? 'Register' : 'Log in'}
-					</button>
-				</div>
+				{this.state.isSignedUp ? (
+					<Login
+						goBack={this.goBackHandler}
+						submit={this.authHandler}
+						switchAuthMethod={this.switchAuthMethodHandler}>
+						{inputFieldsEl}
+					</Login>
+				) : (
+					<Register
+						goBack={this.goBackHandler}
+						submit={this.authHandler}
+						switchAuthMethod={this.switchAuthMethodHandler}>
+						{inputFieldsEl}
+					</Register>
+				)}
 			</Fragment>
 		);
 
-		if (this.props.error) {
-			formEl = errorConverter(this.props.error);
+		if (this.props.authenticated) {
+			authFormEl = <Logout logout={this.props.logout} />;
 		}
 
 		return (
 			<div className='pageContainer'>
-				{this.props.loading ? <Spinner /> : formEl}
+				{this.props.loading ? <Spinner /> : authFormEl}
 			</div>
 		);
 	}
@@ -149,6 +140,7 @@ const mapStateToProps = state => {
 	return {
 		loading: state.auth.loading,
 		error: state.auth.error,
+		authenticated: state.auth.tokenId,
 	};
 };
 
@@ -156,6 +148,7 @@ const mapDispatchToProp = dispatch => {
 	return {
 		auth: (email, password, isSignedUp) =>
 			dispatch(actions.auth(email, password, isSignedUp)),
+		logout: _ => dispatch(actions.logout()),
 	};
 };
 
