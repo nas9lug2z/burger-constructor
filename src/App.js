@@ -1,5 +1,8 @@
 import React, { Component, withErrorHandler, Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import * as actions from './store/actions/index';
 
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilderContainer from './containers/BurgerBuilderPage/BurgerBuilderContainer';
@@ -8,6 +11,10 @@ import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
 
 class App extends Component {
+	componentDidMount() {
+		this.props.checkAuthStatus();
+	}
+
 	render() {
 		return (
 			<Fragment>
@@ -24,4 +31,10 @@ class App extends Component {
 	}
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+	return {
+		checkAuthStatus: _ => dispatch(actions.checkAuthStatus()),
+	};
+};
+
+export default connect(null, mapDispatchToProps)(App);

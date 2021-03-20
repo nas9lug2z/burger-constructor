@@ -19,15 +19,6 @@ const BuildControls = props => {
 		);
 	});
 
-	// const submit = _ => {
-	// 	console.log(props.authenticated);
-	// 	if (props.authenticated) {
-	// 		props.checkout();
-	// 	} else {
-	// 		props.auth();
-	// 	}
-	// };
-
 	return (
 		<div className={classes.BuildControlsContainer}>
 			<p>Choose your ingredients: </p>
@@ -38,7 +29,7 @@ const BuildControls = props => {
 					disabled={!props.purchasable}
 					onClick={props.authenticated ? props.checkout : props.auth}
 					className='black-button'>
-					{props.authenticated ? 'Checkout' : 'Log in to checkout'}
+					Checkout
 				</button>
 			</div>
 		</div>

@@ -33,6 +33,7 @@ const authFailed = err => {
 };
 
 export const logout = _ => {
+	localStorage.clear();
 	return {
 		type: actionTypes.LOGOUT,
 	};
@@ -59,7 +60,12 @@ export const auth = (email, password, isSignedUp) => {
 				authData
 			)
 			.then(res => {
-				console.log(res);
+				const expirationDate = new Date(
+					new Date().getTime() + res.data.expiresIn * 1000
+				);
+				localStorage.setItem('tokenId', res.data.idToken);
+				localStorage.setItem('userId', res.data.localId);
+				localStorage.setItem('expirationDate', expirationDate);
 				dispatch(authSucess(res.data));
 				dispatch(authExpires(res.data.expiresIn));
 			})
@@ -67,5 +73,25 @@ export const auth = (email, password, isSignedUp) => {
 				console.log(err.response);
 				dispatch(authFailed(err));
 			});
+	};
+};
+
+export const checkAuthStatus = _ => {
+	return dispatch => {
+		const tokenId = localStorage.getItem('tokenId');
+		console.log(tokenId);
+		if (tokenId) {
+			const userId = localStorage.getItem('userId');
+			const expirationDate = new Date(localStorage.getItem('expirationDate'));
+			const now = new Date();
+			if (now <= expirationDate) {
+				dispatch(authSucess({ idToken: tokenId, localId: userId }));
+				dispatch(
+					authExpires(expirationDate.getTime() - new Date().getTime() / 1000)
+				);
+			} else {
+				dispatch(logout());
+			}
+		}
 	};
 };

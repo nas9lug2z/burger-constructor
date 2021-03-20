@@ -13,4 +13,4 @@ export {
 
 export { fetchOrdersStart, fetchOrders } from './ordersListActions';
 
-export { auth, logout } from './authActions';
+export { auth, logout, checkAuthStatus } from './authActions';
