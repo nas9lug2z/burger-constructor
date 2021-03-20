@@ -6,9 +6,6 @@ const Login = props => {
 		<Fragment>
 			<h1>Login to make an order</h1>
 			<form>{props.children}</form>
-			<button className='black-button' onClick={props.goBackHandler}>
-				Go Back
-			</button>
 			<button className='black-button' onClick={props.submit}>
 				Login
 			</button>

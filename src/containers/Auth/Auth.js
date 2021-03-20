@@ -15,7 +15,7 @@ import Logout from './Logout/Logout';
 class Auth extends Component {
 	state = {
 		formValid: false,
-		isSignedUp: false,
+		isSignedUp: true,
 		fields: {
 			email: {
 				value: '',
@@ -75,10 +75,6 @@ class Auth extends Component {
 		);
 	};
 
-	goBackHandler = _ => {
-		this.props.history.goBack();
-	};
-
 	switchAuthMethodHandler = _ => {
 		this.setState(prevState => {
 			return { isSignedUp: !prevState.isSignedUp };
@@ -108,14 +104,12 @@ class Auth extends Component {
 			<Fragment>
 				{this.state.isSignedUp ? (
 					<Login
-						goBack={this.goBackHandler}
 						submit={this.authHandler}
 						switchAuthMethod={this.switchAuthMethodHandler}>
 						{inputFieldsEl}
 					</Login>
 				) : (
 					<Register
-						goBack={this.goBackHandler}
 						submit={this.authHandler}
 						switchAuthMethod={this.switchAuthMethodHandler}>
 						{inputFieldsEl}
@@ -125,7 +119,12 @@ class Auth extends Component {
 		);
 
 		if (this.props.authenticated) {
-			authFormEl = <Logout logout={this.props.logout} />;
+			authFormEl = (
+				<Logout
+					logout={this.props.logout}
+					checkoutContinue={_ => this.props.history.push('/checkout')}
+				/>
+			);
 		}
 
 		return (
@@ -140,7 +139,7 @@ const mapStateToProps = state => {
 	return {
 		loading: state.auth.loading,
 		error: state.auth.error,
-		authenticated: state.auth.tokenId,
+		authenticated: state.auth.tokenId !== null,
 	};
 };
 

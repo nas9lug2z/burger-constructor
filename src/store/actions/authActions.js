@@ -27,7 +27,7 @@ const authFailed = err => {
 	return {
 		type: actionTypes.AUTH_FAILED,
 		payload: {
-			error: err,
+			error: err.response.data.error.message,
 		},
 	};
 };
@@ -65,7 +65,7 @@ export const auth = (email, password, isSignedUp) => {
 			})
 			.catch(err => {
 				console.log(err.response);
-				dispatch(authFailed(err.response.data.error.message));
+				dispatch(authFailed(err));
 			});
 	};
 };

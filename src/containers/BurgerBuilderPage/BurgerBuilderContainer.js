@@ -44,6 +44,10 @@ class BurgerBuilderContainer extends Component {
 		this.props.history.push('/checkout');
 	};
 
+	authRedirectHandler = _ => {
+		this.props.history.push('/auth');
+	};
+
 	render() {
 		let burgerComponent = this.props.ingredientsError ? (
 			<p>Ingredients can't be loaded!</p>
@@ -66,7 +70,9 @@ class BurgerBuilderContainer extends Component {
 						}}
 						price={this.props.price}
 						purchasable={this.updatePurchaseState()}
-						clicked={this.checkoutHandler}
+						checkout={this.checkoutHandler}
+						authenticated={this.props.authenticated}
+						auth={this.authRedirectHandler}
 					/>
 					<Burger ingredients={this.props.ingredients} />
 				</div>
@@ -102,6 +108,7 @@ const mapStateToProps = state => {
 		price: state.prices.initialPrice,
 		ingredients: state.chosenIngredients.ingredients,
 		ingredientsError: state.chosenIngredients.error,
+		authenticated: state.auth.tokenId,
 	};
 };
 
