@@ -22,11 +22,17 @@ const fetchOrdersFailed = _ => {
 	};
 };
 
-export const fetchOrders = _ => {
+export const fetchOrders = (accessToken, userId) => {
 	return dispatch => {
 		dispatch(fetchOrdersStart());
 		axios
-			.get('/orders.json')
+			.get('/orders.json?', {
+				params: {
+					auth: accessToken,
+					orderBy: '"userId"',
+					equalTo: `"${userId}"`,
+				},
+			})
 			.then(res => {
 				const fetchedOrders = [];
 				for (let key in res.data) {

@@ -114,6 +114,7 @@ class ContactData extends Component {
 
 		//submitting to the firebase
 		const order = {
+			userId: this.props.userId,
 			ingredients: reducedIngredients,
 			price: this.props.price,
 			customer: {
@@ -125,7 +126,7 @@ class ContactData extends Component {
 				email: this.state.order.customer.email.value,
 			},
 		};
-		this.props.submitOrder(order);
+		this.props.submitOrder(order, this.props.accessToken);
 	};
 
 	goBackHandler = _ => {
@@ -212,12 +213,14 @@ const mapStateToProps = state => {
 		orderError: state.order.error,
 		errorMessage: state.order.errorMessage,
 		loading: state.order.loading,
+		userId: state.auth.userId,
+		accessToken: state.auth.tokenId,
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		submitOrder: order => dispatch(actions.submitOrder(order)),
+		submitOrder: (order, token) => dispatch(actions.submitOrder(order, token)),
 		resetOrder: _ => dispatch(actions.resetOrder()),
 	};
 };

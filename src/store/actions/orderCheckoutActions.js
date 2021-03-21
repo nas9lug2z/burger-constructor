@@ -27,11 +27,11 @@ const postOrder = order => {
 	};
 };
 
-export const submitOrder = order => {
+export const submitOrder = (order, accessToken) => {
 	return dispatch => {
 		dispatch(submitOrderStart());
 		axios
-			.post('/orders.json', order)
+			.post(`/orders.json?auth=${accessToken}`, order)
 			.then(_ => dispatch(postOrder(order)))
 			.catch(err => dispatch(postOrderFailed(err)));
 	};
