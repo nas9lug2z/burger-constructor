@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import inputValidation from '../../../components/UI/Input/validation/inputValidation';
 import formValidation from '../../../components/UI/Input/validation/formValidation';
 import * as actions from '../../../store/actions/index';
+import priceFormatter from '../../../utilities/priceFormatter';
 
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
@@ -190,7 +191,7 @@ class ContactData extends Component {
 			contactDataEl = (
 				<div className='pageContainer'>
 					<h2>Your order has been sent to the restaurant!</h2>
-					<h3>Your order price: {this.props.price}</h3>
+					<h3>Your order price: {priceFormatter.format(this.props.price)}</h3>
 					<button onClick={this.goHomeHandler} className='black-button'>
 						Return to the home page
 					</button>

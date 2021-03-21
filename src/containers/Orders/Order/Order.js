@@ -1,5 +1,7 @@
 import React from 'react';
+
 import classes from './Order.module.css';
+import priceFormatter from '../../../utilities/priceFormatter';
 
 const Order = props => {
 	let igArray = [];
@@ -13,7 +15,7 @@ const Order = props => {
 				{props.id}. Order No. {props.order.id}
 			</h4>
 			<p>Your burger ingredients: {igArray.join(', ')}</p>
-			<h4>Price: {props.order.price}€</h4>
+			<h4>Price: {priceFormatter.format(props.order.price)}</h4>
 		</div>
 	);
 };

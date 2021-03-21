@@ -1,6 +1,7 @@
 import React from 'react';
 
 import classes from './BuildControls.module.css';
+import priceFormatter from '../../../utilities/priceFormatter';
 
 import BuildControl from './/BuildControl/BuildControl';
 
@@ -26,7 +27,7 @@ const BuildControls = props => {
 			<p>Choose your ingredients: </p>
 			<div className={classes.IngredientsList}>{ingredientsList}</div>
 			<div>
-				<p>Price: {props.price}€</p>
+				<p>Price: {priceFormatter.format(props.price)}</p>
 				<button
 					disabled={!purchasable}
 					onClick={props.authenticated ? props.checkout : props.auth}
