@@ -47,7 +47,11 @@ const ingredientsReducer = (state = initialState, action) => {
 		case actionTypes.REMOVE_INGREDIENT:
 			return removeIngredient(state, action);
 		case actionTypes.SUBMIT_ORDER:
-			return state;
+			return updateObject(state, {
+				ingredients: null,
+				totalIgCount: 0,
+				error: false,
+			});
 		default:
 			return state;
 	}

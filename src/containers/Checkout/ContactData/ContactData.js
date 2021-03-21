@@ -11,7 +11,6 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 class ContactData extends Component {
 	state = {
-		orderPosted: false,
 		formValid: false,
 		order: {
 			ingredients: this.props.location.state.ingredients,
@@ -65,23 +64,6 @@ class ContactData extends Component {
 					},
 					touchedbyuser: false,
 				},
-
-				email: {
-					value: '',
-					htmlTag: 'input',
-					htmlTagConfig: {
-						type: 'email',
-						placeholder: 'Your Email',
-					},
-					validation: {
-						validated: false,
-						rules: {
-							minLength: 8,
-							requiredChars: ['@', '.'],
-						},
-					},
-					touchedbyuser: false,
-				},
 			},
 		},
 	};
@@ -120,14 +102,16 @@ class ContactData extends Component {
 			price: this.props.price,
 			customer: {
 				name: this.state.order.customer.name.value,
+				email: this.props.userEmail,
 				address: {
 					street: this.state.order.customer.street.value,
 					postalcode: this.state.order.customer.postalcode.value,
 				},
-				email: this.state.order.customer.email.value,
 			},
 		};
 		this.props.submitOrder(order, this.props.accessToken);
+
+		//clear the inputform
 	};
 
 	goBackHandler = _ => {
@@ -192,6 +176,7 @@ class ContactData extends Component {
 				<div className='pageContainer'>
 					<h2>Your order has been sent to the restaurant!</h2>
 					<h3>Your order price: {priceFormatter.format(this.props.price)}</h3>
+					<p>You will be redirected to the Home page in X seconds</p>
 					<button onClick={this.goHomeHandler} className='black-button'>
 						Return to the home page
 					</button>
@@ -208,7 +193,7 @@ class ContactData extends Component {
 const mapStateToProps = state => {
 	return {
 		price: state.prices.initialPrice,
-		ingredients: state.chosenIngredients.ingredients,
+		ingredients: state.ingredients.ingredients,
 		orderPosted: state.order.orderPosted,
 		order: state.order.order,
 		orderError: state.order.error,
@@ -216,6 +201,7 @@ const mapStateToProps = state => {
 		loading: state.order.loading,
 		userId: state.auth.userId,
 		accessToken: state.auth.tokenId,
+		userEmail: state.auth.email,
 	};
 };
 

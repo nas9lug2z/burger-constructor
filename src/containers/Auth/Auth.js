@@ -141,7 +141,7 @@ const mapStateToProps = state => {
 		loading: state.auth.loading,
 		error: state.auth.error,
 		authenticated: state.auth.tokenId !== null,
-		purchasable: state.chosenIngredients.totalIgCount,
+		purchasable: state.ingredients.totalIgCount,
 	};
 };
 

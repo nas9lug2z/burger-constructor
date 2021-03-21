@@ -8,14 +8,14 @@ import thunk from 'redux-thunk';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import chosenIngredientsReducer from './store/reducers/chosenIngredientsReducer';
+import ingredientsReducer from './store/reducers/ingredientsReducer';
 import priceReducer from './store/reducers/priceReducer';
 import orderCheckoutReducer from './store/reducers/orderCheckoutReducer';
 import orderListReducer from './store/reducers/orderListReducer';
 import authReducer from './store/reducers/authReducer';
 
 const rootReducer = combineReducers({
-	chosenIngredients: chosenIngredientsReducer,
+	ingredients: ingredientsReducer,
 	order: orderCheckoutReducer,
 	prices: priceReducer,
 	orderList: orderListReducer,

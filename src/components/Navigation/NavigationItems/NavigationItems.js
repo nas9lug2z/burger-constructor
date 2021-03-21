@@ -5,16 +5,26 @@ import classes from './NavigationItems.module.css';
 const NavigationItems = props => {
 	const noAuthMenu = (
 		<Fragment>
-			<NavigationItem link='/'>Burger Builder</NavigationItem>
-			<NavigationItem link='/auth'>Login / Register</NavigationItem>
+			<NavigationItem close={props.close} link='/'>
+				Burger Builder
+			</NavigationItem>
+			<NavigationItem close={props.close} link='/auth'>
+				Login / Register
+			</NavigationItem>
 		</Fragment>
 	);
 
 	const authMenu = (
 		<Fragment>
-			<NavigationItem link='/'>Burger Builder</NavigationItem>
-			<NavigationItem link='/orders'>My Orders</NavigationItem>
-			<NavigationItem link='/auth'>Logout</NavigationItem>
+			<NavigationItem close={props.close} link='/'>
+				Burger Builder
+			</NavigationItem>
+			<NavigationItem close={props.close} link='/orders'>
+				My Orders
+			</NavigationItem>
+			<NavigationItem close={props.close} link='/auth'>
+				Logout
+			</NavigationItem>
 		</Fragment>
 	);
 

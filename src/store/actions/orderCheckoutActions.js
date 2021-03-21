@@ -32,7 +32,10 @@ export const submitOrder = (order, accessToken) => {
 		dispatch(submitOrderStart());
 		axios
 			.post(`/orders.json?auth=${accessToken}`, order)
-			.then(_ => dispatch(postOrder(order)))
+			.then(_ => {
+				dispatch(postOrder(order));
+				dispatch(resetOrderTimeout());
+			})
 			.catch(err => dispatch(postOrderFailed(err)));
 	};
 };
@@ -40,5 +43,11 @@ export const submitOrder = (order, accessToken) => {
 export const resetOrder = _ => {
 	return {
 		type: actionTypes.RESET_ORDER,
+	};
+};
+
+const resetOrderTimeout = _ => {
+	return dispatch => {
+		setTimeout(_ => dispatch(resetOrder()), 10000);
 	};
 };

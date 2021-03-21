@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import * as classes from '../Auth.module.css';
 
 const Logout = props => {
-	console.log(props.purchasable);
 	return (
 		<Fragment>
 			<button

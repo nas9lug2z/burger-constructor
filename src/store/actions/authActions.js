@@ -19,6 +19,7 @@ const authSucess = authData => {
 		payload: {
 			tokenId: authData.idToken,
 			userId: authData.localId,
+			email: authData.email,
 		},
 	};
 };
@@ -65,6 +66,7 @@ export const auth = (email, password, isSignedUp) => {
 				localStorage.setItem('tokenId', res.data.idToken);
 				localStorage.setItem('userId', res.data.localId);
 				localStorage.setItem('expirationDate', expirationDate);
+				localStorage.setItem('email', res.data.email);
 				dispatch(authSucess(res.data));
 				dispatch(authExpires(res.data.expiresIn));
 			})
@@ -79,10 +81,13 @@ export const checkAuthStatus = _ => {
 		const tokenId = localStorage.getItem('tokenId');
 		if (tokenId) {
 			const userId = localStorage.getItem('userId');
+			const email = localStorage.getItem('email');
 			const expirationDate = new Date(localStorage.getItem('expirationDate'));
 			const now = new Date();
 			if (now <= expirationDate) {
-				dispatch(authSucess({ idToken: tokenId, localId: userId }));
+				dispatch(
+					authSucess({ idToken: tokenId, localId: userId, email: email })
+				);
 				dispatch(
 					authExpires((expirationDate.getTime() - new Date().getTime()) / 1000)
 				);

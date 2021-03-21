@@ -4,11 +4,10 @@ import { updateObject } from '../utility';
 const initialState = {
 	tokenId: null,
 	userId: null,
+	email: null,
 	error: null,
 	loading: false,
 };
-
-const expirationDate = date => {};
 
 const authReducer = (state = initialState, action) => {
 	switch (action.type) {
@@ -27,12 +26,14 @@ const authReducer = (state = initialState, action) => {
 				error: null,
 				tokenId: action.payload.tokenId,
 				userId: action.payload.userId,
+				email: action.payload.email,
 			});
 		case actionTypes.LOGOUT:
 			return updateObject(state, {
 				error: null,
 				tokenId: null,
 				userId: null,
+				email: null,
 				loading: false,
 			});
 		default:
