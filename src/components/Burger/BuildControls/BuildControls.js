@@ -19,6 +19,8 @@ const BuildControls = props => {
 		);
 	});
 
+	const purchasable = props.totalIgCount > 0;
+
 	return (
 		<div className={classes.BuildControlsContainer}>
 			<p>Choose your ingredients: </p>
@@ -26,7 +28,7 @@ const BuildControls = props => {
 			<div>
 				<p>Price: {props.price}€</p>
 				<button
-					disabled={!props.purchasable}
+					disabled={!purchasable}
 					onClick={props.authenticated ? props.checkout : props.auth}
 					className='black-button'>
 					Checkout

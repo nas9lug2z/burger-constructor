@@ -31,7 +31,7 @@ class Auth extends Component {
 						requiredChars: ['@', '.'],
 					},
 				},
-				touchedByUser: false,
+				touchedbyuser: false,
 			},
 			password: {
 				value: '',
@@ -46,7 +46,7 @@ class Auth extends Component {
 						minLength: 8,
 					},
 				},
-				touchedByUser: false,
+				touchedbyuser: false,
 			},
 		},
 	};
@@ -60,7 +60,7 @@ class Auth extends Component {
 			e.target.value,
 			fieldsDeepCopy[elName].validation.rules
 		);
-		fieldsDeepCopy[elName].touchedByUser = true;
+		fieldsDeepCopy[elName].touchedbyuser = true;
 
 		const isFormValid = formValidation(fieldsDeepCopy);
 
@@ -93,9 +93,9 @@ class Auth extends Component {
 					htmltag={elemProperties.htmlTag}
 					type={elemProperties.htmlTagConfig.type}
 					placeholder={elemProperties.htmlTagConfig.placeholder}
-					isRequired={elemProperties.validation}
+					isrequired={elemProperties.validation}
 					changed={this.inputChangeHandler}
-					touchedByUser={elemProperties.touchedByUser}
+					touchedbyuser={elemProperties.touchedbyuser}
 				/>
 			);
 		});
@@ -122,6 +122,7 @@ class Auth extends Component {
 			authFormEl = (
 				<Logout
 					logout={this.props.logout}
+					purchasable={this.props.purchasable}
 					checkoutContinue={_ => this.props.history.push('/checkout')}
 				/>
 			);
@@ -140,6 +141,7 @@ const mapStateToProps = state => {
 		loading: state.auth.loading,
 		error: state.auth.error,
 		authenticated: state.auth.tokenId !== null,
+		purchasable: state.chosenIngredients.totalIgCount,
 	};
 };
 

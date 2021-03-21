@@ -69,10 +69,10 @@ class BurgerBuilderContainer extends Component {
 							this.props.removeIngredient(ig, this.props.ingredients[ig]);
 						}}
 						price={this.props.price}
-						purchasable={this.updatePurchaseState()}
 						checkout={this.checkoutHandler}
 						authenticated={this.props.authenticated}
 						auth={this.authRedirectHandler}
+						totalIgCount={this.props.totalIgCount}
 					/>
 					<Burger ingredients={this.props.ingredients} />
 				</div>
@@ -109,6 +109,7 @@ const mapStateToProps = state => {
 		ingredients: state.chosenIngredients.ingredients,
 		ingredientsError: state.chosenIngredients.error,
 		authenticated: state.auth.tokenId,
+		totalIgCount: state.chosenIngredients.totalIgCount,
 	};
 };
 
@@ -125,4 +126,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(withErrorHandler(BurgerBuilderContainer, axios));
+)(BurgerBuilderContainer);

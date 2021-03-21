@@ -14,8 +14,6 @@ class Orders extends Component {
 	}
 
 	render() {
-		console.log(this.props.orders);
-
 		let orders = null;
 
 		if (this.props.orders) {
@@ -25,7 +23,7 @@ class Orders extends Component {
 
 			orders = (
 				<div className={classes.Orders}>
-					<h1>Orders</h1>
+					<h1>My Orders</h1>
 					{transformedOrders.map((order, index) => (
 						<Order order={order} key={order.id} id={index + 1} />
 					))}

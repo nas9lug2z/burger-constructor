@@ -29,7 +29,7 @@ class ContactData extends Component {
 							minLength: 3,
 						},
 					},
-					touchedByUser: false,
+					touchedbyuser: false,
 				},
 
 				street: {
@@ -45,7 +45,7 @@ class ContactData extends Component {
 							minLength: 8,
 						},
 					},
-					touchedByUser: false,
+					touchedbyuser: false,
 				},
 
 				postalcode: {
@@ -62,7 +62,7 @@ class ContactData extends Component {
 							onlyNumberChars: true,
 						},
 					},
-					touchedByUser: false,
+					touchedbyuser: false,
 				},
 
 				email: {
@@ -79,7 +79,7 @@ class ContactData extends Component {
 							requiredChars: ['@', '.'],
 						},
 					},
-					touchedByUser: false,
+					touchedbyuser: false,
 				},
 			},
 		},
@@ -96,7 +96,7 @@ class ContactData extends Component {
 			value,
 			orderCopy.customer[elName].validation.rules
 		);
-		orderCopy.customer[elName].touchedByUser = true;
+		orderCopy.customer[elName].touchedbyuser = true;
 
 		//validate the whole form
 		const isFormValid = formValidation(orderCopy.customer);
@@ -151,9 +151,9 @@ class ContactData extends Component {
 					htmltag={elemProperties.htmlTag}
 					type={elemProperties.htmlTagConfig.type}
 					placeholder={elemProperties.htmlTagConfig.placeholder}
-					isRequired={elemProperties.validation}
+					isrequired={elemProperties.validation}
 					changed={this.inputChangeHandler}
-					touchedByUser={elemProperties.touchedByUser}
+					touchedbyuser={elemProperties.touchedbyuser}
 				/>
 			);
 		});

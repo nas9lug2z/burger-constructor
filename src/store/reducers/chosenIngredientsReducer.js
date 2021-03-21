@@ -4,9 +4,13 @@ import { updateObject } from '../utility';
 const initialState = {
 	ingredients: null,
 	error: false,
+	totalIgCount: 0,
 };
+
 const addIngredient = (state, action) => {
 	return updateObject(state, {
+		error: false,
+		totalIgCount: state.totalIgCount + 1,
 		ingredients: {
 			...state.ingredients,
 			[action.payload.ingredient]:
@@ -18,6 +22,8 @@ const addIngredient = (state, action) => {
 const removeIngredient = (state, action) => {
 	return action.payload.currentQuantity > 0
 		? updateObject(state, {
+				totalIgCount: state.totalIgCount - 1,
+				error: false,
 				ingredients: {
 					...state.ingredients,
 					[action.payload.ingredient]:

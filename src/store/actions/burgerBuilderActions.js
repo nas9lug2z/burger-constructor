@@ -12,7 +12,10 @@ export const addIngedient = ig => {
 export const removeIngedient = (ig, currentQuantity) => {
 	return {
 		type: actionTypes.REMOVE_INGREDIENT,
-		payload: { ingredient: ig, currentQuantity: currentQuantity },
+		payload: {
+			ingredient: ig,
+			currentQuantity: currentQuantity,
+		},
 	};
 };
 
@@ -20,9 +23,7 @@ export const removeIngedient = (ig, currentQuantity) => {
 const setIngredients = ingredients => {
 	return {
 		type: actionTypes.SET_INGREDIENTS,
-		payload: {
-			ingredients: ingredients,
-		},
+		payload: { ingredients: ingredients },
 	};
 };
 

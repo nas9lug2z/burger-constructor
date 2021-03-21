@@ -7,7 +7,13 @@ const Input = props => {
 	switch (props.htmltag) {
 		case 'input':
 			inputEl = (
-				<input className={classes.Input} {...props} onChange={props.changed} />
+				<input
+					className={classes.Input}
+					name={props.name}
+					type={props.type}
+					placeholder={props.placeholder}
+					onChange={props.changed}
+				/>
 			);
 			break;
 		case 'textarea':
@@ -29,8 +35,8 @@ const Input = props => {
 		<Fragment>
 			<label className={classes.Label}></label>
 			{inputEl}
-			{props.isRequired && props.touchedByUser ? (
-				!props.isRequired.validated ? (
+			{props.isrequired && props.touchedbyuser ? (
+				!props.isrequired.validated ? (
 					<span className={classes.Validation}>*This field is requiered</span>
 				) : null
 			) : null}
