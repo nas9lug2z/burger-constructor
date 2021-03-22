@@ -11,35 +11,28 @@ class Checkout extends Component {
 
 	cancelOrderHandler = _ => {
 		this.setState({ orderConfirmed: false });
-		this.props.history.goBack();
+		this.props.history.replace('/');
 	};
 
 	confirmOrderHandler = _ => {
 		this.setState({ orderConfirmed: true }, _ => {
-			this.props.history.replace('/checkout/contact-data', {
-				ingredients: this.state.ingredients,
-				price: this.state.price,
-			});
+			this.props.history.replace('/checkout/contact-data');
 		});
 	};
 
 	render() {
 		const checkoutSummaryEl = (
 			<CheckoutSummary
-				ingredients={this.props.ingredients}
-				cancelOrder={this.cancelOrderHandler}
+				ingredients={this.props.chosenIngredients}
+				changeOrder={this.cancelOrderHandler}
 				confirmOrder={this.confirmOrderHandler}
-				price={this.props.price}
+				price={this.props.totalOrderPrice}
 			/>
 		);
 
 		return (
 			<Fragment>
 				{!this.state.orderConfirmed ? checkoutSummaryEl : null}
-				<Route
-					path={`${this.props.match.url}/contact-data`}
-					component={ContactData}
-				/>
 			</Fragment>
 		);
 	}
@@ -47,8 +40,8 @@ class Checkout extends Component {
 
 const mapStateToProps = state => {
 	return {
-		price: state.prices.initialPrice,
-		ingredients: state.ingredients.ingredients,
+		totalOrderPrice: state.prices.totalOrderPrice,
+		chosenIngredients: state.ingredients.chosenIngredients,
 	};
 };
 

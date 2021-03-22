@@ -1,5 +1,5 @@
 import React, { Component, withErrorHandler, Fragment } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redur } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as actions from './store/actions/index';
@@ -7,6 +7,7 @@ import * as actions from './store/actions/index';
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilderContainer from './containers/BurgerBuilderPage/BurgerBuilderContainer';
 import Checkout from './containers/Checkout/Checkout';
+import ContactData from './containers/Checkout/ContactData/ContactData';
 import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
 
@@ -20,10 +21,20 @@ class App extends Component {
 			<Fragment>
 				<Layout>
 					<Switch>
-						<Route path='/orders' component={Orders} />
-						<Route path='/auth' component={Auth} />
-						<Route path='/checkout' component={Checkout} />
-						<Route path='/' component={BurgerBuilderContainer} />
+						<Route exact path='/orders' component={Orders} />
+						<Route exact path='/auth' component={Auth} />
+						{this.props.authenticated && this.props.purchasable !== 0 ? (
+							<Route
+								exact
+								path='/checkout/contact-data'
+								component={ContactData}
+							/>
+						) : null}
+						{this.props.authenticated && this.props.purchasable !== 0 ? (
+							<Route exact path='/checkout' component={Checkout} />
+						) : null}
+						<Route exact path='/' component={BurgerBuilderContainer} />
+						<Route render={_ => <h1>404 Not Found</h1>} />
 					</Switch>
 				</Layout>
 			</Fragment>
@@ -31,10 +42,18 @@ class App extends Component {
 	}
 }
 
+const mapStateToProps = state => {
+	return {
+		authenticated: state.auth.tokenId !== null,
+		purchasable: state.ingredients.totalIgCount,
+		orderPosted: state.order.orderPosted,
+	};
+};
+
 const mapDispatchToProps = dispatch => {
 	return {
 		checkAuthStatus: _ => dispatch(actions.checkAuthStatus()),
 	};
 };
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

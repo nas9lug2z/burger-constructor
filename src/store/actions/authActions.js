@@ -5,7 +5,6 @@ const APIKEY = 'AIzaSyCNVzH9DX0l5GRzDVLbAvg-tAu9bCMQiOw';
 const generateURL = (apiKey, method) => {
 	return `https://identitytoolkit.googleapis.com/v1/accounts:${method}?key=${apiKey}`;
 };
-let method = 'signUp';
 
 const authStart = _ => {
 	return {

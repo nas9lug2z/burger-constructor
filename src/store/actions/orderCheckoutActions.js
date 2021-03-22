@@ -18,12 +18,9 @@ const postOrderFailed = (err, order) => {
 	};
 };
 
-const postOrder = order => {
+const postOrder = _ => {
 	return {
 		type: actionTypes.SUBMIT_ORDER,
-		payload: {
-			order: order,
-		},
 	};
 };
 
@@ -33,8 +30,7 @@ export const submitOrder = (order, accessToken) => {
 		axios
 			.post(`/orders.json?auth=${accessToken}`, order)
 			.then(_ => {
-				dispatch(postOrder(order));
-				dispatch(resetOrderTimeout());
+				dispatch(postOrder());
 			})
 			.catch(err => dispatch(postOrderFailed(err)));
 	};
@@ -43,11 +39,5 @@ export const submitOrder = (order, accessToken) => {
 export const resetOrder = _ => {
 	return {
 		type: actionTypes.RESET_ORDER,
-	};
-};
-
-const resetOrderTimeout = _ => {
-	return dispatch => {
-		setTimeout(_ => dispatch(resetOrder()), 10000);
 	};
 };

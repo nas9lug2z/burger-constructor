@@ -23,7 +23,9 @@ export const removeIngedient = (ig, currentQuantity) => {
 const setIngredients = ingredients => {
 	return {
 		type: actionTypes.SET_INGREDIENTS,
-		payload: { ingredients: ingredients },
+		payload: {
+			ingredients: ingredients,
+		},
 	};
 };
 

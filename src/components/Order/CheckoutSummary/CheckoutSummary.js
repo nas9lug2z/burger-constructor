@@ -11,8 +11,8 @@ const CheckoutSummary = props => {
 			<h2>Here is your burger:</h2>
 			<Burger ingredients={props.ingredients} />
 			<h3>Total price: {priceFormatter.format(props.price)}</h3>
-			<button onClick={props.cancelOrder} className='black-button'>
-				Cancel
+			<button onClick={props.changeOrder} className='black-button'>
+				Change Order
 			</button>
 			<button className='black-button' onClick={props.confirmOrder}>
 				Confirm Order

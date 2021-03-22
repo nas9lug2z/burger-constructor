@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import lodash from 'lodash';
 import { connect } from 'react-redux';
 
+import lodash from 'lodash';
 import inputValidation from '../../../components/UI/Input/validation/inputValidation';
 import formValidation from '../../../components/UI/Input/validation/formValidation';
 import * as actions from '../../../store/actions/index';
@@ -13,8 +13,8 @@ class ContactData extends Component {
 	state = {
 		formValid: false,
 		order: {
-			ingredients: this.props.location.state.ingredients,
-			price: this.props.location.state.price,
+			ingredients: this.props.chosenIngredients,
+			price: this.props.totalOrderPrice,
 			customer: {
 				name: {
 					value: '',
@@ -90,7 +90,7 @@ class ContactData extends Component {
 	submitHandler = _ => {
 		//remove ingredients with 0:
 		let reducedIngredients = Object.fromEntries(
-			Object.entries({ ...this.props.ingredients }).filter(
+			Object.entries({ ...this.props.chosenIngredients }).filter(
 				elem => elem[1] !== 0
 			)
 		);
@@ -99,7 +99,7 @@ class ContactData extends Component {
 		const order = {
 			userId: this.props.userId,
 			ingredients: reducedIngredients,
-			price: this.props.price,
+			price: this.props.totalOrderPrice,
 			customer: {
 				name: this.state.order.customer.name.value,
 				email: this.props.userEmail,
@@ -110,17 +110,20 @@ class ContactData extends Component {
 			},
 		};
 		this.props.submitOrder(order, this.props.accessToken);
-
-		//clear the inputform
+		this.redirectHomeTimeout();
 	};
 
 	goBackHandler = _ => {
 		this.props.history.goBack();
 	};
 
+	redirectHomeTimeout = _ => {
+		setTimeout(_ => this.goHomeHandler(), 10000);
+	};
+
 	goHomeHandler = _ => {
-		this.props.history.replace('/');
 		this.props.resetOrder();
+		this.props.history.replace('/');
 	};
 
 	render() {
@@ -175,7 +178,10 @@ class ContactData extends Component {
 			contactDataEl = (
 				<div className='pageContainer'>
 					<h2>Your order has been sent to the restaurant!</h2>
-					<h3>Your order price: {priceFormatter.format(this.props.price)}</h3>
+					<h3>
+						Your order price:{' '}
+						{priceFormatter.format(this.props.totalOrderPrice)}
+					</h3>
 					<p>You will be redirected to the Home page in X seconds</p>
 					<button onClick={this.goHomeHandler} className='black-button'>
 						Return to the home page
@@ -192,10 +198,9 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
 	return {
-		price: state.prices.initialPrice,
-		ingredients: state.ingredients.ingredients,
+		totalOrderPrice: state.prices.totalOrderPrice,
+		chosenIngredients: state.ingredients.chosenIngredients,
 		orderPosted: state.order.orderPosted,
-		order: state.order.order,
 		orderError: state.order.error,
 		errorMessage: state.order.errorMessage,
 		loading: state.order.loading,

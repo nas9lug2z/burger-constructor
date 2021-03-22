@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import axios from '../../axios-orders';
 
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import classes from './BurgerBuilderContainer.module.css';
 import * as burgerBuilderActions from '../../store/actions/burgerBuilderActions';
 
@@ -18,12 +16,14 @@ class BurgerBuilderContainer extends Component {
 	};
 
 	componentDidMount() {
-		this.props.initPrices();
-		this.props.initIngredients();
+		if (!this.props.fetchedIngredients) {
+			this.props.initPrices();
+			this.props.initIngredients();
+		}
 	}
 
 	updatePurchaseState = _ => {
-		const sum = Object.values(this.props.ingredients).reduce(
+		const sum = Object.values(this.props.chosenIngredients).reduce(
 			(accumulator, currentValue) => {
 				return accumulator + currentValue;
 			},
@@ -49,7 +49,7 @@ class BurgerBuilderContainer extends Component {
 	};
 
 	render() {
-		let burgerComponent = this.props.ingredientsError ? (
+		let burgerComponent = this.props.chosenIngredientsError ? (
 			<p>Ingredients can't be loaded!</p>
 		) : (
 			<Spinner />
@@ -57,30 +57,30 @@ class BurgerBuilderContainer extends Component {
 
 		let orderSum = null;
 
-		if (this.props.ingredients) {
+		if (this.props.chosenIngredients) {
 			burgerComponent = (
 				<div className={classes.Container}>
 					<BuildControls
-						ingredients={this.props.ingredients}
+						ingredients={this.props.chosenIngredients}
 						addIngredientHandler={ig => {
 							this.props.addIngredient(ig);
 						}}
 						removeIngredientHandler={ig => {
-							this.props.removeIngredient(ig, this.props.ingredients[ig]);
+							this.props.removeIngredient(ig, this.props.chosenIngredients[ig]);
 						}}
-						price={this.props.price}
+						price={this.props.totalOrderPrice}
 						checkout={this.checkoutHandler}
 						authenticated={this.props.authenticated}
 						auth={this.authRedirectHandler}
 						totalIgCount={this.props.totalIgCount}
 					/>
-					<Burger ingredients={this.props.ingredients} />
+					<Burger ingredients={this.props.chosenIngredients} />
 				</div>
 			);
 			orderSum = (
 				<OrderSummary
-					ingredients={this.props.ingredients}
-					price={this.props.price}
+					ingredients={this.props.chosenIngredients}
+					price={this.props.totalOrderPrice}
 					modalClosed={this.checkoutCancelHandler}
 					checkoutContinue={this.checkoutContinueHandler}
 				/>
@@ -105,8 +105,9 @@ class BurgerBuilderContainer extends Component {
 
 const mapStateToProps = state => {
 	return {
-		price: state.prices.initialPrice,
-		ingredients: state.ingredients.ingredients,
+		totalOrderPrice: state.prices.totalOrderPrice,
+		fetchedIngredients: state.ingredients.fetchedIngredients,
+		chosenIngredients: state.ingredients.chosenIngredients,
 		ingredientsError: state.ingredients.error,
 		authenticated: state.auth.tokenId,
 		totalIgCount: state.ingredients.totalIgCount,

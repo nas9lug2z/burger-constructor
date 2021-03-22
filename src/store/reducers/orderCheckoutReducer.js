@@ -3,7 +3,6 @@ import { updateObject } from '../utility';
 
 const initialState = {
 	loading: false,
-	order: null,
 	orderPosted: false,
 	error: false,
 	errorMessage: null,
@@ -17,14 +16,12 @@ const orderCheckoutReducer = (state = initialState, action) => {
 			});
 		case actionTypes.RESET_ORDER:
 			return updateObject(state, {
-				order: null,
 				orderPosted: false,
 				error: false,
 				loading: false,
 			});
 		case actionTypes.POST_ORDER_FAILED:
 			return updateObject(state, {
-				order: action.payload.order,
 				orderPosted: false,
 				error: true,
 				errorMessage: action.payload.error,
@@ -32,7 +29,6 @@ const orderCheckoutReducer = (state = initialState, action) => {
 			});
 		case actionTypes.SUBMIT_ORDER:
 			return updateObject(state, {
-				order: action.payload.order,
 				orderPosted: true,
 				error: false,
 				loading: false,
