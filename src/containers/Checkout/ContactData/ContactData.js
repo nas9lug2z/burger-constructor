@@ -12,6 +12,7 @@ import Input from '../../../components/UI/Input/Input';
 class ContactData extends Component {
 	state = {
 		formValid: false,
+		timeLeft: 9,
 		order: {
 			ingredients: this.props.chosenIngredients,
 			price: this.props.totalOrderPrice,
@@ -119,11 +120,25 @@ class ContactData extends Component {
 
 	redirectHomeTimeout = _ => {
 		setTimeout(_ => this.goHomeHandler(), 10000);
+		this.countdown();
 	};
 
 	goHomeHandler = _ => {
 		this.props.resetOrder();
 		this.props.history.replace('/');
+	};
+
+	countdown = _ => {
+		const updateState = _ =>
+			this.setState({ timeLeft: this.state.timeLeft - 1 });
+		const checkTimeLeft = _ => {
+			if (this.state.timeLeft > 0) {
+				updateState();
+			} else {
+				clearInterval();
+			}
+		};
+		return setInterval(_ => checkTimeLeft(), 1000);
 	};
 
 	render() {
@@ -182,7 +197,10 @@ class ContactData extends Component {
 						Your order price:{' '}
 						{priceFormatter.format(this.props.totalOrderPrice)}
 					</h3>
-					<p>You will be redirected to the Home page in X seconds</p>
+					<p>
+						You will be redirected to the Home page in {this.state.timeLeft}{' '}
+						seconds
+					</p>
 					<button onClick={this.goHomeHandler} className='black-button'>
 						Return to the home page
 					</button>
