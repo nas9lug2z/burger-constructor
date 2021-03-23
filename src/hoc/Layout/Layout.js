@@ -28,12 +28,17 @@ class Layout extends Component {
 					toggleSideDrawer={this.sideDrawerToggleHandler}
 					showSideDrawer={this.state.showSideDrawer}
 					authenticated={this.props.authenticated}
+					orderPosted={this.props.orderPosted}
+					resetOrder={this.props.resetOrder}
+					close={this.sideDrawerClosedHandler}
 				/>
 				<SideDrawer
 					showSideDrawer={this.state.showSideDrawer}
 					toggleSideDrawer={this.sideDrawerToggleHandler}
 					close={this.sideDrawerClosedHandler}
+					orderPosted={this.props.orderPosted}
 					authenticated={this.props.authenticated}
+					resetOrder={this.props.resetOrder}
 				/>
 				<div className='body'>{this.props.children}</div>
 			</Fragment>
@@ -44,11 +49,14 @@ class Layout extends Component {
 const mapStateToProps = state => {
 	return {
 		authenticated: state.auth.tokenId,
+		orderPosted: state.order.orderPosted,
 	};
 };
 
 const mapDispatchToProp = dispatch => {
-	return {};
+	return {
+		resetOrder: _ => dispatch(actions.resetOrder()),
+	};
 };
 
 export default connect(mapStateToProps, mapDispatchToProp)(Layout);

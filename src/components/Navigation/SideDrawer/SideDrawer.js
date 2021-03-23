@@ -24,6 +24,8 @@ const SideDrawer = props => {
 					<NavigationItems
 						authenticated={props.authenticated}
 						close={props.close}
+						resetOrder={props.resetOrder}
+						orderPosted={props.orderPosted}
 					/>
 				</nav>
 			</div>

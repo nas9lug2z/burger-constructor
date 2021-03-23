@@ -5,10 +5,18 @@ import classes from './NavigationItems.module.css';
 const NavigationItems = props => {
 	const noAuthMenu = (
 		<Fragment>
-			<NavigationItem close={props.close} link='/'>
+			<NavigationItem
+				close={props.close}
+				resetOrder={props.resetOrder}
+				orderPosted={props.orderPosted}
+				link='/'>
 				Burger Builder
 			</NavigationItem>
-			<NavigationItem close={props.close} link='/auth'>
+			<NavigationItem
+				close={props.close}
+				resetOrder={props.resetOrder}
+				orderPosted={props.orderPosted}
+				link='/auth'>
 				Login / Register
 			</NavigationItem>
 		</Fragment>
@@ -16,13 +24,25 @@ const NavigationItems = props => {
 
 	const authMenu = (
 		<Fragment>
-			<NavigationItem close={props.close} link='/'>
+			<NavigationItem
+				close={props.close}
+				resetOrder={props.resetOrder}
+				orderPosted={props.orderPosted}
+				link='/'>
 				Burger Builder
 			</NavigationItem>
-			<NavigationItem close={props.close} link='/orders'>
+			<NavigationItem
+				close={props.close}
+				resetOrder={props.resetOrder}
+				orderPosted={props.orderPosted}
+				link='/orders'>
 				My Orders
 			</NavigationItem>
-			<NavigationItem close={props.close} link='/auth'>
+			<NavigationItem
+				close={props.close}
+				resetOrder={props.resetOrder}
+				orderPosted={props.orderPosted}
+				link='/auth'>
 				Logout
 			</NavigationItem>
 		</Fragment>

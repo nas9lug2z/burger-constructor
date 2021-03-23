@@ -112,6 +112,7 @@ class ContactData extends Component {
 		};
 		this.props.submitOrder(order, this.props.accessToken);
 		this.redirectHomeTimeout();
+		this.countdown();
 	};
 
 	goBackHandler = _ => {
@@ -120,7 +121,6 @@ class ContactData extends Component {
 
 	redirectHomeTimeout = _ => {
 		setTimeout(_ => this.goHomeHandler(), 10000);
-		this.countdown();
 	};
 
 	goHomeHandler = _ => {
@@ -129,17 +129,20 @@ class ContactData extends Component {
 	};
 
 	countdown = _ => {
-		const updateState = _ =>
-			this.setState({ timeLeft: this.state.timeLeft - 1 });
-		const checkTimeLeft = _ => {
+		setInterval(_ => {
 			if (this.state.timeLeft > 0) {
-				updateState();
+				this.setState({ timeLeft: this.state.timeLeft - 1 });
 			} else {
-				clearInterval();
+				this.clearInt();
 			}
-		};
-		return setInterval(_ => checkTimeLeft(), 1000);
+		}, 1000);
 	};
+
+	componentWillUnmount() {
+		console.log('[contact data]component will unmount');
+		clearTimeout(this.redirectHomeTimeout);
+		clearInterval(this.countdown);
+	}
 
 	render() {
 		const extractedInputElements = Object.entries(
@@ -206,6 +209,13 @@ class ContactData extends Component {
 					</button>
 				</div>
 			);
+
+			// (
+			// 	<OrderPostSucess
+			// 		totalOrderPrice={this.props.totalOrderPrice}
+			// 		goHomeHandler={this.goHomeHandler}
+			// 	/>
+			// );
 		}
 
 		return (
