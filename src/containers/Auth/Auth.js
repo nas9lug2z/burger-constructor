@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react';
 import lodash from 'lodash';
 import { connect } from 'react-redux';
 
-import inputValidation from '../../components/UI/Input/validation/inputValidation';
-import formValidation from '../../components/UI/Input/validation/formValidation';
+import inputValidation from '../../utilities/validation/inputValidation';
+import formValidation from '../../utilities/validation/formValidation';
 import * as actions from '../../store/actions/index';
 
 import Input from '../../components/UI/Input/Input';

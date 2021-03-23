@@ -10,23 +10,14 @@ class Modal extends Component {
 		);
 	}
 
-	// componentDidUpdate() {
-	// 	console.log('Modal updates');
-	// }
-
 	render() {
 		return (
 			<Fragment>
-				<Backdrop
-					show={this.props.show}
-					clicked={this.props.modalClosed}
-				/>
+				<Backdrop show={this.props.show} clicked={this.props.modalClosed} />
 				<div
 					className={classes.Modal}
 					style={{
-						transform: this.props.show
-							? 'translateY(0)'
-							: 'translateY(-300vh)',
+						transform: this.props.show ? 'translateY(0)' : 'translateY(-300vh)',
 						opacity: this.props.show ? '1' : '0',
 					}}>
 					{this.props.children}

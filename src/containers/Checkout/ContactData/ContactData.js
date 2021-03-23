@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import lodash from 'lodash';
-import inputValidation from '../../../components/UI/Input/validation/inputValidation';
-import formValidation from '../../../components/UI/Input/validation/formValidation';
+import inputValidation from '../../../utilities/validation/inputValidation';
+import formValidation from '../../../utilities/validation/formValidation';
 import * as actions from '../../../store/actions/index';
 import priceFormatter from '../../../utilities/priceFormatter';
 
@@ -90,7 +90,7 @@ class ContactData extends Component {
 
 	submitHandler = _ => {
 		//remove ingredients with 0:
-		let reducedIngredients = Object.fromEntries(
+		let chosenIngredientsOnly = Object.fromEntries(
 			Object.entries({ ...this.props.chosenIngredients }).filter(
 				elem => elem[1] !== 0
 			)
@@ -99,7 +99,7 @@ class ContactData extends Component {
 		//submitting to the firebase
 		const order = {
 			userId: this.props.userId,
-			ingredients: reducedIngredients,
+			ingredients: chosenIngredientsOnly,
 			price: this.props.totalOrderPrice,
 			customer: {
 				name: this.state.order.customer.name.value,
@@ -139,7 +139,6 @@ class ContactData extends Component {
 	};
 
 	componentWillUnmount() {
-		console.log('[contact data]component will unmount');
 		clearTimeout(this.redirectHomeTimeout);
 		clearInterval(this.countdown);
 	}
@@ -209,13 +208,6 @@ class ContactData extends Component {
 					</button>
 				</div>
 			);
-
-			// (
-			// 	<OrderPostSucess
-			// 		totalOrderPrice={this.props.totalOrderPrice}
-			// 		goHomeHandler={this.goHomeHandler}
-			// 	/>
-			// );
 		}
 
 		return (

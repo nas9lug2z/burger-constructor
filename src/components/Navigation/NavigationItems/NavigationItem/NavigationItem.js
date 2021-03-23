@@ -4,8 +4,7 @@ import classes from './NavigationItem.module.css';
 
 const NavigationItem = props => {
 	const onClickEvents = _ => {
-		console.log(`order posted: ${props.orderPosted}`);
-		// props.close();
+		props.close();
 		if (props.orderPosted) {
 			props.resetOrder();
 		}

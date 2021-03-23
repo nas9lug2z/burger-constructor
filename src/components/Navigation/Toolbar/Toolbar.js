@@ -12,6 +12,7 @@ const Toolbar = props => {
 					authenticated={props.authenticated}
 					resetOrder={props.resetOrder}
 					orderPosted={props.orderPosted}
+					close={props.close}
 				/>
 			</nav>
 			<HamburgerButton

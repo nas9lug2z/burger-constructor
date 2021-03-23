@@ -3,7 +3,6 @@ import React from 'react';
 import classes from './BuildControl.module.css';
 
 const BuildControl = props => {
-	// console.log(props.changeQuantityHandler('egg'));
 	return (
 		<div className={classes.Ingredient}>
 			<button
