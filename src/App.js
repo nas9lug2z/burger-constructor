@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import * as actions from './store/actions/index';
 
-import Layout from './hoc/Layout/Layout';
+import Layout from './containers/Layout/Layout';
 import BurgerBuilderContainer from './containers/BurgerBuilderPage/BurgerBuilderContainer';
 import Checkout from './containers/Checkout/Checkout';
 import ContactData from './containers/Checkout/ContactData/ContactData';
