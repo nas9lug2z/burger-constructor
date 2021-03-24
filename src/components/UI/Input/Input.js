@@ -37,7 +37,7 @@ const Input = props => {
 			{inputEl}
 			{props.isrequired && props.touchedbyuser ? (
 				!props.isrequired.validated ? (
-					<span className={classes.Validation}>*This field is requiered</span>
+					<span className={classes.Validation}>*This field is required</span>
 				) : null
 			) : null}
 		</Fragment>
